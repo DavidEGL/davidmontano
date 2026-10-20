@@ -73,16 +73,22 @@ export const obstacles = [
   { x: 12, z: -28, r: 1.9 },
 ];
 export function groundHeight(x, z) {
-  if (Math.abs(x - 10) > 4) return 0;
+  if (Math.abs(x - 10) > 4) {
+    const edge = Math.max(0, Math.hypot(x, z) - 39) / 24;
+    return (
+      edge * edge * (1.2 + Math.sin(x * 0.12) * 0.7 + Math.cos(z * 0.13) * 0.8)
+    );
+  }
   if (z > -4 && z < 5) return (5 - z) / 3;
   if (z <= -4 && z >= -14) return 3;
   if (z < -14 && z > -23) return (z + 23) / 3;
   return 0;
 }
 export const distance = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
-export function newRun(level = 2) {
+export function newRun(level = 2, assisted = false) {
   return {
     version: 2,
+    assisted,
     level,
     phase: "explore",
     time: 0,
@@ -153,8 +159,8 @@ export function interact(s) {
     s.player.x = 0;
     s.player.z = -31;
     s.player.health = 100;
-    spawn(s, "boss", 0, -45, 10 + s.level * 4);
-    for (let i = 0; i < s.level + 1; i++)
+    spawn(s, "boss", 0, -45, s.assisted ? 6 + s.level * 2 : 10 + s.level * 4);
+    for (let i = 0; i < (s.assisted ? 1 : s.level + 1); i++)
       spawn(s, i % 2 ? "bacteriana" : "viral", (i - 1) * 7, -42, 2);
     event(s, "boss");
     return true;
@@ -163,7 +169,7 @@ export function interact(s) {
   s.active = z.id;
   s.phase = "combat";
   s.player.tool = z.tool;
-  const count = 2 + s.level * 2;
+  const count = s.assisted ? 2 + s.level : 2 + s.level * 2;
   for (let i = 0; i < count; i++) {
     const a = (i / count) * Math.PI * 2;
     spawn(
@@ -475,6 +481,7 @@ export function checkpoint(s) {
   return {
     version: 2,
     mode: "action",
+    assisted: !!s.assisted,
     level: s.level,
     completed: [...s.completed],
     score: s.score,
@@ -501,7 +508,7 @@ export function restore(value) {
     (value.won && value.completed.length !== 4)
   )
     return null;
-  const s = newRun(value.level);
+  const s = newRun(value.level, value.assisted === true);
   s.completed = [...value.completed];
   s.score = value.score;
   s.kills = value.kills;

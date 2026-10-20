@@ -13,37 +13,43 @@ for source,target,css in [('index.html','JUGAR-INMUNO.html','action.css'),('cart
  html=html.replace('<script src="build/game.js" defer></script>','<script>'+js.replace('</script','<\\/script')+'</script>')
  assert 'src="build/game.js"' not in html and 'href="'+css+'"' not in html
  (out/target).write_text(html)
-readme='''INMUNO · DEFENSORES DEL CUERPO · VIDEOJUEGO 3D
+video=root/'media/TRAILER-INMUNO.mp4'
+assert video.exists() and video.stat().st_size>100000,'Primero renderiza el tráiler.'
+readme='''INMUNO · MISIONES GUIADAS · VERSIÓN 3
 
 1. Extrae el ZIP en tu computadora.
 2. Abre JUGAR-INMUNO.html con Chrome, Edge o Firefox.
-3. Elige nivel y pulsa Entrar al mundo.
+3. Elige nivel y pulsa Ver tráiler y jugar, o Empezar tutorial.
 
-CONTROLES: WASD o flechas para moverte; Mayús para correr; Espacio para saltar.
-Botón derecho + arrastrar para girar la cámara. Clic mantenido para lanzar.
-1: Anticuerpo (virus). 2: Antibiótico (bacterias). 3: Defensa integral (universal).
-Q: escudo temporal. F: construir barrera. E: activar estación o portal.
-Escape: pausa. En móvil: joystick, arrastrar a la derecha para mirar y botones táctiles.
+CÓMO JUGAR: solo dos acciones principales.
+1. Pulsa GUÍAME. Tu agente seguirá las luces y activará la misión al llegar.
+2. Mantén PROTEGER. El personaje apunta y elige la defensa adecuada.
+3. Responde una pregunta corta y gana tu insignia. Pulsa Siguiente misión.
 
-Recorre las cuatro regiones del cuerpo. Sigue el marcador amarillo y activa cada
-estación. Supera la oleada en tiempo real y responde para recuperar el sistema.
-Tras las cuatro regiones, vuelve al portal central y entra al núcleo.
-Si pierdes toda tu salud puedes reintentar. Se conservan las regiones recuperadas.
+El tráiler incluido explica esos pasos con narración española y subtítulos.
+Se abre desde Ver tráiler y jugar y se puede repetir desde Pausa > Cómo jugar.
+Conserva TRAILER-INMUNO.mp4 en la misma carpeta que JUGAR-INMUNO.html.
 
-NIVELES: 1.º–2.º, 3.º–4.º y 5.º–6.º. Cambian ayuda al apuntar, dificultad,
-número de enemigos y resistencia del núcleo. Es una partida individual local.
+También puedes moverte con flechas o WASD; en móvil hay joystick.
+Lumi acompaña la cámara, activa escudos y recarga energía cuando hace falta.
+No necesitas cambiar herramientas, controlar cámara, saltar ni construir.
+P permite proteger con teclado. El botón también admite Espacio/Enter con el foco.
 
-Incluye mundo 3D, música, efectos y cartas originales, sin red ni instalación.
-Necesita WebGL 2. Sonido permite desactivar música y efectos por separado.
-Pausa permite ver controles, códex, exportar/importar progreso o cambiar nivel.
-La lectura en voz alta depende de las voces disponibles en tu navegador.
-El guardado conserva regiones completadas; una oleada se reinicia si recargas.
-MODO-CARTAS.html conserva el juego anterior por turnos y las aventuras educativas.
-El modo de acción es una adaptación nueva, no las reglas del mazo de INMUNO.
+Recupera pulmones, corazón, cerebro y defensas. Las cuatro insignias abren el núcleo.
+Tres niveles para toda primaria: 1.º–2.º, 3.º–4.º y 5.º–6.º.
+Es una aventura individual local. El progreso se guarda al completar cada región.
+Pausa permite exportar/importar el progreso, ver el códex o cambiar el nivel.
+Música, efectos y volumen se controlan por separado desde Sonido.
+
+Extrae TODOS los archivos del ZIP. No se necesitan programas ni Internet.
+Para el videojuego de acción necesitas un navegador con WebGL 2.
+El archivo MODO-CARTAS.html conserva el juego anterior por turnos.
+La aventura guiada adapta INMUNO; no reproduce las rondas ni el mazo del juego físico.
 
 Código: https://github.com/DavidEGL/davidmontano/tree/codex/juego-codigo-ancestral/inmuno
 '''
 with zipfile.ZipFile(out/'JUEGO-INMUNO.zip','w',zipfile.ZIP_DEFLATED) as z:
  for name in ['JUGAR-INMUNO.html','MODO-CARTAS.html']:z.write(out/name,name)
+ z.write(video,'TRAILER-INMUNO.mp4')
  z.writestr('LEEME.txt',readme)
-print('Listo: videojuego de acción 3D y modo de cartas autónomos, sin red.')
+print('Listo: aventura guiada, tráiler español, modo cartas y LEEME; todo sin red.')

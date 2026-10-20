@@ -1151,3 +1151,391 @@ body.playing:not(.touch) #action-world canvas {
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
+/* Guided missions: one clear action, readable instructions and no aiming requirements. */
+.guided .loadout,
+.guided .controls-hint,
+.guided .score-box,
+.guided .touch-buttons,
+.guided .reticle,
+.guided .shield-status {
+  display: none !important;
+}
+.guided .quest {
+  max-width: 330px;
+  border-radius: 18px;
+  border: 1px solid #ffffff9c;
+  border-left: 5px solid #ffd166;
+  background: #fff7e9ed;
+  color: #12394b;
+  box-shadow: 0 12px 40px #12394b20;
+  padding: 20px;
+}
+.guided .quest .eyebrow {
+  color: #38776d;
+}
+.guided .quest h1 {
+  font-size: 25px;
+  line-height: 1.16;
+  margin: 9px 0 12px;
+}
+.guided .quest p {
+  color: #42645f;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.guided .quest .meta {
+  color: #806019;
+  font-size: 12px;
+}
+.guided .quest .progress i {
+  background: #d9e4d6;
+}
+.guided .quest .progress i.done {
+  background: #37bfa7;
+}
+.guided .quest button {
+  background: #12394b0c;
+  color: #234f49;
+  font-size: 12px;
+  min-height: 36px;
+  padding: 7px 12px;
+}
+.simple-controls {
+  position: fixed;
+  right: 32px;
+  bottom: 42px;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 11px;
+  pointer-events: none;
+}
+.simple-controls button {
+  pointer-events: auto;
+  min-width: 220px;
+  min-height: 64px;
+  font-size: 19px;
+  border-radius: 17px;
+  background: #ffd166;
+  box-shadow:
+    0 5px 0 #bd8e30,
+    0 12px 30px #12394b22;
+  text-transform: none;
+  font-style: normal;
+  letter-spacing: 0;
+  touch-action: none;
+}
+.simple-controls button:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #bd8e30;
+}
+.simple-controls #guide-caption {
+  background: #12394bd9;
+  border-radius: 10px;
+  padding: 9px 13px;
+  font-size: 12px;
+  max-width: 300px;
+  text-align: center;
+  line-height: 1.5;
+}
+.guided .vitals {
+  width: 220px;
+}
+.guided .game-bottom {
+  bottom: 40px;
+}
+.simple-steps {
+  display: grid;
+  gap: 9px;
+  background: #ffffff0c;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.simple-steps span {
+  display: block;
+}
+.guided dialog h1 {
+  font-size: 55px;
+  line-height: 1.05;
+  font-style: normal;
+  letter-spacing: -1.8px;
+}
+.guided dialog {
+  background: #12394bf7;
+  max-width: 800px;
+  border-radius: 24px;
+}
+.guided dialog p {
+  font-size: 15px;
+}
+.guided .level-card {
+  min-height: 104px;
+  border-radius: 12px;
+}
+.guided .primary {
+  font-style: normal;
+  text-transform: none;
+  border-radius: 12px;
+}
+.brief-body {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin: 18px 0;
+}
+.brief-body p {
+  margin: 0;
+}
+.mentor-avatar {
+  flex: 0 0 70px;
+  height: 70px;
+  border-radius: 24px;
+  background: radial-gradient(circle at 30% 20%, #a5f9df, #37bfa7);
+  border: 4px solid #fff7e9;
+  box-shadow: 0 6px 20px #0002;
+  display: grid;
+  place-items: center;
+  font-size: 38px;
+  color: #fff7e9;
+  transform: rotate(-6deg);
+}
+.mission-route {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0;
+}
+.mission-route > span {
+  width: 23%;
+  padding: 15px 5px;
+  text-align: center;
+  font-size: 30px;
+  border-radius: 14px;
+  background: #ffffff0a;
+  color: #b3c4c5;
+  border: 1px solid #ffffff12;
+}
+.mission-route .current {
+  background: #ffd16615;
+  border-color: #ffd166;
+  color: #ffd166;
+}
+.mission-route .done {
+  background: #37bfa72b;
+  color: #9ff3d8;
+  border-color: #37bfa7;
+}
+.mission-route small {
+  display: block;
+  font-size: 10px;
+  margin-top: 7px;
+}
+.badge-icon {
+  display: block;
+  margin: 8px auto 20px;
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  border: 7px solid #ffd166;
+  background: #37bfa7;
+  box-shadow: 0 0 0 8px #ffd16620;
+  font-size: 53px;
+  line-height: 90px;
+  color: #fff7e9;
+}
+.guided .answers button {
+  font-size: 18px;
+  min-height: 58px;
+  border-radius: 12px;
+}
+.guided .feedback {
+  font-size: 15px;
+}
+.guided #trailer-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  max-height: 55vh;
+  background: #071e30;
+  border-radius: 15px;
+}
+.guided .video-note {
+  font-size: 12px;
+  color: #b8d3d8;
+}
+.guided .radar-panel {
+  border-radius: 14px;
+  transform: none;
+  background: #12394bba;
+  overflow: hidden;
+}
+.guided .radar {
+  border-radius: 8px;
+}
+.guided .meter > div {
+  height: 18px;
+}
+.guided .player-tag b {
+  font-size: 13px;
+}
+.guided .player-tag small {
+  font-size: 10px;
+}
+.guided .waypoint {
+  font-size: 13px;
+}
+.guided .waypoint b {
+  padding: 8px 12px;
+}
+.guided .top-actions button {
+  border-radius: 12px;
+}
+.guided .notification {
+  font-size: 15px;
+  max-width: 570px;
+  border-radius: 13px;
+}
+.guided .interaction {
+  display: none;
+}
+.guided.hurt:after {
+  display: none;
+}
+@media (max-width: 850px) {
+  .guided .quest {
+    padding: 14px;
+    max-width: 260px;
+  }
+  .guided .quest h1 {
+    font-size: 21px;
+  }
+  .guided .quest p {
+    font-size: 12px;
+  }
+  .simple-controls {
+    right: 24px;
+    bottom: 33px;
+  }
+  .simple-controls button {
+    min-width: 200px;
+    font-size: 17px;
+  }
+  .simple-controls #guide-caption {
+    font-size: 11px;
+    max-width: 230px;
+  }
+}
+@media (max-width: 560px) {
+  .guided .quest {
+    top: 76px;
+    left: 12px;
+    width: calc(100% - 139px);
+    padding: 12px;
+    border-radius: 13px;
+  }
+  .guided .quest h1 {
+    font-size: 18px;
+  }
+  .guided .quest p {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .guided .quest .eyebrow {
+    font-size: 8px;
+  }
+  .guided .quest .meta {
+    font-size: 9px;
+  }
+  .guided .quest button {
+    min-height: 30px;
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  .simple-controls {
+    bottom: 40px;
+    right: 18px;
+  }
+  .simple-controls button {
+    min-width: 175px;
+    min-height: 61px;
+    font-size: 15px;
+    border-radius: 15px;
+  }
+  .simple-controls #guide-caption {
+    max-width: 180px;
+    font-size: 10px;
+    padding: 7px 9px;
+  }
+  .guided .vitals {
+    bottom: 145px;
+    left: 5px;
+    width: 150px;
+  }
+  .guided .joystick {
+    left: 23px;
+    bottom: 42px;
+  }
+  .guided .touch-look {
+    bottom: 170px;
+  }
+  .guided dialog h1 {
+    font-size: 35px;
+    letter-spacing: -1px;
+  }
+  .guided dialog h2 {
+    font-size: 25px;
+  }
+  .guided dialog p {
+    font-size: 13px;
+  }
+  .guided .level-card {
+    padding: 9px;
+    min-height: 110px;
+  }
+  .simple-steps {
+    font-size: 12px;
+    padding: 12px;
+    gap: 7px;
+  }
+  .mentor-avatar {
+    flex-basis: 52px;
+    height: 52px;
+    font-size: 28px;
+    border-radius: 18px;
+  }
+  .mission-route {
+    gap: 5px;
+    margin: 17px 0;
+  }
+  .mission-route > span {
+    padding: 11px 3px;
+    font-size: 23px;
+  }
+  .mission-route small {
+    font-size: 8px;
+  }
+  .guided .notification {
+    font-size: 12px;
+  }
+  .guided .waypoint {
+    font-size: 10px;
+  }
+  .guided .answers button {
+    font-size: 16px;
+  }
+  .guided .feedback {
+    font-size: 13px;
+  }
+  .guided .modal-footer button {
+    font-size: 12px;
+  }
+  .guided .modal-footer .primary {
+    flex: 1;
+  }
+  .guided .simple-controls .primary {
+    flex: none;
+  }
+}

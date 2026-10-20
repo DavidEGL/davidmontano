@@ -1,4 +1,5 @@
 import * as G from "./action-engine.js";
+import { beginGuidance, assistStep, objective } from "./guidance.js";
 import { createActionWorld } from "./action-world.js";
 import { createAudio } from "./audio.js";
 import { cards, levels } from "./data.js";
@@ -16,7 +17,7 @@ const $ = (s) => document.querySelector(s),
           "'": "&#39;",
         })[c],
     );
-const storage = "inmuno-action-v2",
+const storage = "inmuno-guided-v3",
   audio = createAudio(),
   dialog = $("#action-dialog"),
   world = createActionWorld($("#action-world"));
@@ -24,7 +25,7 @@ let saved = null;
 try {
   saved = G.restore(JSON.parse(localStorage.getItem(storage)));
 } catch {}
-let state = saved || G.newRun(2),
+let state = saved || G.newRun(1, true),
   paused = true,
   modal = "",
   yaw = 0,
@@ -42,7 +43,8 @@ let state = saved || G.newRun(2),
   pinned = null,
   lookDrag = null,
   stickPointer = null,
-  ready = false;
+  ready = false,
+  guide = { following: false, route: [] };
 const coarse = matchMedia("(pointer:coarse)").matches;
 document.body.classList.toggle("touch", coarse);
 if (!world) {
@@ -120,61 +122,112 @@ function close() {
 }
 dialog.addEventListener("cancel", (e) => {
   e.preventDefault();
-  if (["welcome", "quiz", "respawn", "victory", "unsupported"].includes(modal))
+  if (
+    [
+      "welcome",
+      "quiz",
+      "respawn",
+      "victory",
+      "unsupported",
+      "trailer",
+      "brief",
+      "badge",
+    ].includes(modal)
+  )
     return;
   close();
 });
 function welcome() {
   show(
     "welcome",
-    `<span class="tagline">INMUNO · VIDEOJUEGO DE AVENTURA Y ACCIÓN</span><h1 id="dialog-title">ENTRA.<br>EXPLORA.<br><em>PROTEGE.</em></h1><p>Conviértete en un agente microscópico. Recorre cuatro regiones,<br>esquiva ataques y recupera el equilibrio del cuerpo.</p><div class="level-grid">${levels.map((l) => `<button class="level-card ${level === l.id ? "active" : ""}" data-level="${l.id}"><span>${l.grades} DE PRIMARIA</span><b>${l.name}</b><small>${l.id === 1 ? "Ayuda al apuntar, menos microbios y dos respuestas." : l.id === 2 ? "Más acción, escudos y tres respuestas." : "Enemigos más rápidos y un núcleo más resistente."}</small></button>`).join("")}</div><div class="quick-controls"><span><b>WASD</b> Mover</span><span><b>ESPACIO</b> Saltar</span><span><b>CLIC</b> Lanzar</span><span><b>Q</b> Escudo</span><span><b>F</b> Construir</span><span><b>E</b> Activar</span></div><div class="modal-footer"><span class="small">Tercera persona · Partida individual · Guardado por región</span>${saved ? '<button id="continue">Continuar</button>' : ""}<button class="primary" id="new-run">Entrar al mundo →</button></div>`,
+    `<span class="tagline">INMUNO · AVENTURA GUIADA EN 3D</span><h1 id="dialog-title">Un pequeño héroe.<br><em>Una gran misión.</em></h1><p>Recupera los pulmones, el corazón, el cerebro y las defensas.<br>Lumi te enseñará cada paso. Solo necesitas moverte y proteger.</p><div class="level-grid">${levels.map((l) => `<button class="level-card ${level === l.id ? "active" : ""}" data-level="${l.id}"><span>${l.grades} DE PRIMARIA</span><b>${l.name}</b><small>${l.id === 1 ? "Muchas ayudas. Misiones cortas." : l.id === 2 ? "Descubre cómo funciona tu cuerpo." : "Nuevos retos con ayuda siempre disponible."}</small></button>`).join("")}</div><div class="simple-steps"><span>① Sigue las luces</span><span>② Pulsa Proteger</span><span>③ Recupera el sistema</span></div><div class="modal-footer">${saved ? '<button id="continue">Continuar misiones</button>' : ""}<button id="tutorial-direct">Empezar tutorial</button><button class="primary" id="new-run">▶ Ver tráiler y jugar</button></div>`,
   );
   dialog.querySelectorAll("[data-level]").forEach(
     (b) =>
       (b.onclick = () => {
-        level = Number(b.dataset.level);
+        level = +b.dataset.level;
         welcome();
       }),
   );
   $("#continue")?.addEventListener("click", () => {
     state = saved;
+    state.assisted = true;
     level = state.level;
     close();
     audio.unlock();
     if (state.phase === "victory") victory();
+    else missionBrief();
     renderHUD();
   });
-  $("#new-run").onclick = () => {
+  function prepare(withTrailer) {
+    const proceed = () => (withTrailer ? trailerPlayer(start) : start());
     if (saved) {
       show(
         "confirm",
-        `<h2 id="dialog-title">¿Nueva expedición?</h2><p>Se sustituirá el progreso guardado. Puedes descargarlo desde el menú de pausa.</p><div class="modal-footer"><button id="cancel">Volver</button><button class="primary" id="confirm-new">Empezar nueva</button></div>`,
+        `<h2 id="dialog-title">¿Empezamos otra aventura?</h2><p>Se sustituirá el progreso guardado. Puedes descargarlo desde Pausa.</p><div class="modal-footer"><button id="cancel">Volver</button><button class="primary" id="confirm-new">Empezar</button></div>`,
       );
       $("#cancel").onclick = welcome;
-      $("#confirm-new").onclick = start;
-    } else start();
+      $("#confirm-new").onclick = proceed;
+    } else proceed();
+  }
+  $("#new-run").onclick = () => prepare(true);
+  $("#tutorial-direct").onclick = () => prepare(false);
+}
+function trailerPlayer(after) {
+  stopVoice();
+  audio.duck(true);
+  show(
+    "trailer",
+    `<span class="eyebrow">ANTES DE EMPEZAR · GUÍA EN VÍDEO</span><h2 id="dialog-title">Así se juega a INMUNO</h2><video id="trailer-video" controls playsinline preload="metadata" aria-label="Tráiler explicativo narrado en español"><source src="${globalThis.__INMUNO_OFFLINE__ ? "TRAILER-INMUNO.mp4" : "media/TRAILER-INMUNO.mp4"}" type="video/mp4"></video><p class="video-note">También puedes volver a verlo desde Pausa.</p><div class="modal-footer"><button class="primary" id="trailer-done">Empezar la misión →</button></div>`,
+  );
+  const v = $("#trailer-video");
+  v.volume = 0.8;
+  v.play().catch(() => {});
+  const finish = () => {
+    v.pause();
+    audio.duck(false);
+    after();
+  };
+  v.onended = finish;
+  $("#trailer-done").onclick = finish;
+}
+function missionBrief() {
+  guide = { following: false, route: [] };
+  const z = G.mission(state),
+    n = state.completed.length + 1;
+  show(
+    "brief",
+    `<span class="eyebrow">${z ? "MISIÓN " + n + " DE 4" : "MISIÓN FINAL"}</span><h2 id="dialog-title">${z ? ["Devuelve el aire", "Pon el corazón en marcha", "Enciende las señales", "Refuerza las defensas"][n - 1] : "Protege el núcleo"}</h2><div class="brief-body"><span class="mentor-avatar">✚</span><p><b>Soy Lumi, tu guía.</b> ${z ? z.fact : "Has recuperado los cuatro sistemas. ¡Vamos a cerrar la anomalía del núcleo!"}</p></div><div class="mission-route">${G.zones.map((r, i) => `<span class="${state.completed.includes(r.id) ? "done" : i === n - 1 ? "current" : ""}">${["◉", "♥", "✧", "✚"][i]}<small>${r.short}</small></span>`).join("")}</div><div class="simple-steps"><span>① Sigue el camino de luces</span><span>② Mantén pulsado Proteger</span><span>③ Responde y gana tu insignia</span></div><div class="modal-footer"><button id="hear-brief">◖ Escuchar misión</button><button class="primary" id="guide-start">¡Vamos! Guíame →</button></div>`,
+  );
+  $("#hear-brief").onclick = () =>
+    speak(
+      `${z ? "Misión " + n + ". " + z.name : "Misión final"}. Pulsa Guíame y sigue las luces. Después mantén pulsado Proteger. Yo elegiré la defensa adecuada.`,
+    );
+  $("#guide-start").onclick = () => {
+    close();
+    guide = beginGuidance(state);
+    renderHUD();
+    toast(
+      "Sigue las luces doradas. Puedes moverte tú con las flechas o dejar que te guíe.",
+    );
   };
 }
 function start() {
-  state = G.newRun(level);
+  state = G.newRun(level, true);
   yaw = 0;
-  pitch = 0.14;
+  pitch = 0.17;
   pinned = null;
+  guide = { following: false, route: [] };
   save();
-  close();
   audio.unlock();
+  missionBrief();
   renderHUD();
-  toast(
-    coarse
-      ? "Usa el joystick para moverte. Arrastra a la derecha para mirar."
-      : "WASD para moverte. Mantén el botón derecho y arrastra para mirar. Clic para lanzar.",
-  );
 }
 function pauseMenu() {
   if (!ready || modal === "welcome") return;
   show(
     "pause",
-    `<span class="eyebrow">EXPEDICIÓN EN PAUSA</span><h2 id="dialog-title">Toma aire, agente.</h2><p>${state.completed.length}/4 regiones recuperadas · ${state.score} puntos · ${levels[state.level - 1].grades}</p><div class="menu-grid"><button id="help">⌨ Controles y misión</button><button id="codex">▧ Códex de cartas</button><button id="sound">♫ Música y efectos</button><button id="export">↓ Descargar progreso</button><button id="import">↑ Cargar progreso</button><button id="home">✧ Cambiar nivel / Nueva expedición</button></div><div class="modal-footer"><a href="${cardURL()}">Modo de cartas por turnos</a><button class="primary" id="resume">Volver al juego →</button></div>`,
+    `<span class="eyebrow">EXPEDICIÓN EN PAUSA</span><h2 id="dialog-title">Toma aire, agente.</h2><p>${state.completed.length}/4 regiones recuperadas · ${state.score} puntos · ${levels[state.level - 1].grades}</p><div class="menu-grid"><button id="help">✦ Cómo jugar / Ver tráiler</button><button id="codex">▧ Códex de cartas</button><button id="sound">♫ Música y efectos</button><button id="export">↓ Descargar progreso</button><button id="import">↑ Cargar progreso</button><button id="home">✧ Cambiar nivel / Nueva expedición</button></div><div class="modal-footer"><a href="${cardURL()}">Modo de cartas por turnos</a><button class="primary" id="resume">Volver al juego →</button></div>`,
   );
   $("#resume").onclick = close;
   $("#help").onclick = help;
@@ -187,17 +240,14 @@ function pauseMenu() {
 function help() {
   show(
     "help",
-    `<span class="eyebrow">CÓMO JUGAR</span><h2 id="dialog-title">Muévete. Esquiva. Protege.</h2><div class="guide-grid"><article><b>Recorre el mundo</b><p>WASD o flechas para moverte; Mayús para correr; Espacio para saltar. Mantén el botón derecho y arrastra para girar la cámara. También puedes capturar el ratón con el botón de abajo; Escape lo libera. En móvil: joystick izquierdo y arrastrar a la derecha para mirar.</p></article><article><b>Activa una misión</b><p>Sigue el marcador amarillo hasta la región. Acércate a la estación y pulsa E o el botón de la pantalla. Neutraliza la oleada y responde al descubrimiento para restaurar el sistema.</p></article><article><b>Elige tu herramienta</b><p>1: Anticuerpo, contra virus morados. 2: Antibiótico, contra bacterias verdes. 3: Defensa integral, contra cualquier amenaza, pero más lenta. Apunta hacia el microbio y mantén clic para lanzar. Hay ayuda de apuntado, mayor en Exploradores. No se agota la munición.</p></article><article><b>Protégete y construye</b><p>Q activa un escudo temporal; F construye una barrera de energía frente a ti que detiene microbios y sus proyectiles. Tienen tiempo de recarga. Salta para esquivar ataques. Recoge los cristales dorados para recuperar salud y puntos.</p></article><article><b>Recupera el núcleo</b><p>Tras restaurar los cuatro sistemas, vuelve al portal central. Entra con E y supera el enfrentamiento final. Si tu salud llega a cero, puedes volver a intentar esa región. Se conserva lo que ya recuperaste.</p></article><article><b>Adaptación de INMUNO</b><p>Este modo de acción usa las herramientas y conceptos de las cartas como habilidades de un videojuego. No sigue los turnos ni el mazo del juego de mesa. Es una partida individual local. El modo de cartas anterior sigue disponible desde Pausa.</p></article></div><div class="modal-footer"><button id="lock-mouse">Capturar ratón para apuntar</button><button class="primary" id="back-game">Volver al juego</button></div>`,
+    `<span class="eyebrow">SOLO DOS ACCIONES PARA JUGAR</span><h2 id="dialog-title">Sigue. Protege. Aprende.</h2><div class="guide-grid"><article><b>① Llega a tu misión</b><p>Pulsa Guíame para que tu agente siga el camino de luces. También puedes usar las flechas, WASD o el joystick. La cámara te acompaña y la misión comienza al llegar.</p></article><article><b>② Mantén pulsado Proteger</b><p>Tu agente apunta y elige la defensa correcta. Puedes moverte mientras lo haces. Lumi recarga tu energía si lo necesitas. No tienes que cambiar herramientas.</p></article><article><b>③ Recupera el sistema</b><p>Contesta una pregunta corta. Si te equivocas, recibirás una pista. Después elige Siguiente misión. Las cuatro insignias abren el núcleo final.</p></article></div><div class="modal-footer"><button id="watch-help">▶ Ver tráiler</button><button class="primary" id="back-game">Entendido · Volver</button></div>`,
   );
   $("#back-game").onclick = close;
-  $("#lock-mouse").onclick = () => {
-    close();
-    world.canvas
-      .requestPointerLock?.()
-      ?.catch?.(() =>
-        toast("Puedes girar manteniendo el botón derecho y arrastrando."),
-      );
-  };
+  $("#watch-help").onclick = () =>
+    trailerPlayer(() => {
+      close();
+      renderHUD();
+    });
 }
 function codex() {
   const entries = [
@@ -244,9 +294,10 @@ function soundPanel() {
 }
 function quiz() {
   const z = G.zones.find((z) => z.id === state.active);
+  guide.following = false;
   show(
     "quiz",
-    `<img class="quiz-art" src="${asset(cards[z.id].art)}" alt="${esc(cards[z.id].name)}"><span class="eyebrow">REGIÓN DESPEJADA · RECUPERA EL SISTEMA</span><h2 id="dialog-title">${esc(z.question)}</h2><button id="read-question">◖ Escuchar</button><div class="answers">${state.quizOrder.map((i) => `<button data-answer="${i}">${esc(z.answers[i])}</button>`).join("")}</div><div class="feedback" role="status">${esc(z.fact)}</div>`,
+    `<img class="quiz-art" src="${asset(cards[z.id].art)}" alt="${esc(cards[z.id].name)}"><span class="eyebrow">¡ZONA DESPEJADA! · ÚLTIMO PASO</span><h2 id="dialog-title">${esc(z.question)}</h2><button id="read-question">◖ Escuchar</button><div class="answers">${state.quizOrder.map((i) => `<button data-answer="${i}">${esc(z.answers[i])}</button>`).join("")}</div><div class="feedback" role="status">${esc(z.fact)}</div>`,
   );
   $("#read-question").onclick = () =>
     speak(
@@ -255,18 +306,23 @@ function quiz() {
   dialog.querySelectorAll("[data-answer]").forEach(
     (b) =>
       (b.onclick = () => {
-        if (!G.answer(state, Number(b.dataset.answer))) {
+        if (!G.answer(state, +b.dataset.answer)) {
           audio.play("hurt");
-          $(".feedback").textContent = z.fact + " Puedes intentarlo de nuevo.";
+          $(".feedback").textContent = z.fact + " ¡Prueba otra vez!";
           return;
         }
         save();
-        close();
         audio.play("success");
         renderHUD();
-        toast(
-          `${z.short} recuperado. +500 de energía. ${G.mission(state) ? "Sigue el nuevo marcador." : "¡Vuelve al portal central!"} `,
+        show(
+          "badge",
+          `<div class="center"><span class="badge-icon">${["◉", "♥", "✧", "✚"][state.completed.length - 1]}</span><span class="eyebrow">MISIÓN COMPLETADA · ${state.completed.length}/4</span><h2 id="dialog-title">¡${z.short} recuperado!</h2><p>${esc(z.fact)}</p></div><div class="modal-footer"><button id="review-zone">Explorar esta zona</button><button class="primary" id="next-mission">${G.mission(state) ? "Siguiente misión →" : "Ir al núcleo →"}</button></div>`,
         );
+        $("#review-zone").onclick = () => {
+          close();
+          renderHUD();
+        };
+        $("#next-mission").onclick = missionBrief;
       }),
   );
 }
@@ -332,7 +388,31 @@ $("#action-import").onchange = async (e) => {
     toast(err.message);
   }
 };
+function simpleHUD() {
+  const z = G.mission(state),
+    combat = state.phase === "combat",
+    following = guide.following;
+  const titles = [
+    "Devuelve el aire",
+    "Pon el corazón en marcha",
+    "Enciende las señales",
+    "Refuerza las defensas",
+  ];
+  $("#quest").innerHTML =
+    `<span class="eyebrow">${z ? "MISIÓN " + (state.completed.length + 1) + " DE 4" : "MISIÓN FINAL"}</span><h1>${z ? titles[state.completed.length] : "Protege el núcleo"}</h1><p>${combat ? "Mantén pulsado PROTEGER. Lumi elige la defensa y te ayuda a apuntar." : following ? "Sigue las luces. Tu agente ya va hacia la misión." : "Pulsa GUÍAME o muévete con las flechas hasta las luces."}</p><div class="progress">${G.zones.map((r) => `<i class="${state.completed.includes(r.id) ? "done" : ""}"></i>`).join("")}</div><div class="meta">${combat ? state.enemies.length + " microbios por neutralizar" : "◆ " + Math.round(G.distance(state.player, z || { x: 0, z: 2 })) + " m · " + (z?.short || "Núcleo")}</div><button id="read-mission">◖ Escuchar</button>`;
+  $("#read-mission").onclick = () => speak($("#quest").textContent);
+  $("#guide-toggle").hidden = combat;
+  $("#guide-toggle").textContent = following ? "Ⅱ Detener guía" : "✦ Guíame";
+  $("#protect-button").hidden = !combat;
+  $("#protect-button").textContent = "◈ Mantén PROTEGER";
+  $("#guide-caption").textContent = combat
+    ? "Puedes moverte mientras proteges."
+    : following
+      ? "Si quieres moverte tú, usa las flechas o el joystick."
+      : "La cámara y las herramientas se manejan solas.";
+}
 function renderHUD() {
+  document.body.classList.add("guided");
   const p = state.player,
     z = G.mission(state),
     combat = state.phase === "combat",
@@ -401,6 +481,7 @@ function renderHUD() {
       `ANOMALÍA DEL NÚCLEO<div><i style="width:${(boss.hp / boss.maxHP) * 100}%"></i></div>`;
   $("#touch-shield").style.opacity = p.shieldCooldown > 0 ? ".4" : "1";
   $("#touch-build").style.opacity = p.buildCooldown > 0 ? ".4" : "1";
+  simpleHUD();
 }
 function flushEvents() {
   for (const e of state.events) {
@@ -414,15 +495,19 @@ function flushEvents() {
       audio.play("pop");
     }
     if (e.type === "hurt") {
-      world.hurt();
+      if (!state.assisted) world.hurt();
       document.body.classList.add("hurt");
       setTimeout(() => document.body.classList.remove("hurt"), 220);
       audio.play("hurt");
     }
     if (e.type === "pickup") audio.play("success");
     if (e.type === "shield" || e.type === "build") audio.play("heal");
+    if (e.type === "assistance")
+      toast("Lumi te ayuda: ¡energía recargada! Sigue protegiendo.");
     if (e.type === "wave") {
-      toast("¡Oleada activada! Usa " + G.tools[state.player.tool].name + ".");
+      toast(
+        "¡Has llegado! Mantén pulsado el botón PROTEGER. Yo te ayudo a apuntar.",
+      );
       audio.play("enemy");
     }
     if (e.type === "boss") {
@@ -458,25 +543,36 @@ function frame(now) {
   const dt = Math.min(0.15, (now - (last || now)) / 1000);
   last = now;
   if (!paused) {
-    for (let remaining = dt; remaining > 0; remaining -= 0.025)
-      G.step(
+    for (let remaining = dt; remaining > 0; remaining -= 0.025) {
+      const forward =
+        (keys.has("KeyW") || keys.has("ArrowUp") ? 1 : 0) -
+        (keys.has("KeyS") || keys.has("ArrowDown") ? 1 : 0) +
+        mobileY;
+      const right =
+        (keys.has("KeyD") || keys.has("ArrowRight") ? 1 : 0) -
+        (keys.has("KeyA") || keys.has("ArrowLeft") ? 1 : 0) +
+        mobileX;
+      if (forward || right) guide.following = false;
+      const facing = assistStep(
         state,
+        guide,
         {
           yaw,
-          forward:
-            (keys.has("KeyW") || keys.has("ArrowUp") ? 1 : 0) -
-            (keys.has("KeyS") || keys.has("ArrowDown") ? 1 : 0) +
-            mobileY,
-          right:
-            (keys.has("KeyD") || keys.has("ArrowRight") ? 1 : 0) -
-            (keys.has("KeyA") || keys.has("ArrowLeft") ? 1 : 0) +
-            mobileX,
-          sprint: keys.has("ShiftLeft") || keys.has("ShiftRight"),
+          forward,
+          right,
+          sprint: keys.has("ShiftLeft"),
           jump: jump || keys.has("Space"),
-          fire,
+          fire: fire || keys.has("KeyP"),
         },
         Math.min(0.025, remaining),
       );
+      if (facing !== null && !forward && !right) {
+        let d = facing - yaw;
+        while (d > Math.PI) d -= Math.PI * 2;
+        while (d < -Math.PI) d += Math.PI * 2;
+        yaw += d * Math.min(1, dt * 3);
+      }
+    }
     flushEvents();
     if (now - hudLast > 140) {
       renderHUD();
@@ -484,6 +580,7 @@ function frame(now) {
     }
   }
   if (!world.soft || now - (world.lastRender || 0) > 45) {
+    world.setGuide?.(state, guide);
     world.render(state, yaw, pitch, dt || 0.016);
     world.lastRender = now;
     const z = G.zones.find((z) => z.id === pinned) ||
@@ -501,6 +598,7 @@ function frame(now) {
 }
 function activate() {
   if (paused) return;
+  guide.following = false;
   if (G.interact(state)) {
     pinned = null;
     flushEvents();
@@ -524,6 +622,34 @@ $("#fullscreen").onclick = () => {
       .requestFullscreen?.()
       .catch(() => toast("Tu navegador no permite pantalla completa aquí."));
 };
+$("#guide-toggle").onclick = () => {
+  if (paused) return;
+  if (guide.following) guide.following = false;
+  else guide = beginGuidance(state);
+  renderHUD();
+};
+$("#protect-button").addEventListener("pointerdown", (e) => {
+  if (paused) return;
+  fire = true;
+  audio.unlock();
+  e.target.setPointerCapture(e.pointerId);
+});
+$("#protect-button").addEventListener("pointerup", () => (fire = false));
+$("#protect-button").addEventListener("pointercancel", () => (fire = false));
+$("#protect-button").addEventListener("keydown", (e) => {
+  if (["Space", "Enter"].includes(e.code) && !paused) {
+    e.preventDefault();
+    e.stopPropagation();
+    fire = true;
+  }
+});
+$("#protect-button").addEventListener("keyup", (e) => {
+  if (["Space", "Enter"].includes(e.code)) {
+    e.preventDefault();
+    e.stopPropagation();
+    fire = false;
+  }
+});
 document.addEventListener("keydown", (e) => {
   if (e.code === "Escape") {
     if (!dialog.open) pauseMenu();
@@ -566,7 +692,7 @@ if (world) {
   canvas.addEventListener("pointerdown", (e) => {
     if (paused) return;
     audio.unlock();
-    if (e.button === 0) fire = true;
+    if (e.button === 0 && !state.assisted) fire = true;
     if (e.button === 2) {
       lookDrag = [e.clientX, e.clientY];
       canvas.setPointerCapture(e.pointerId);

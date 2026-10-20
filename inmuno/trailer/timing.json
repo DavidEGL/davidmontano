@@ -1,0 +1,40 @@
+{
+  "duration": 48.603,
+  "scenes": [
+    {
+      "title": "Tu cuerpo te necesita",
+      "text": "¡Bienvenido a Inmuno! Eres un pequeño agente dentro del cuerpo. Tu misión es recuperar cuatro sistemas.",
+      "start": 0,
+      "speech": 6.272,
+      "duration": 7.472
+    },
+    {
+      "title": "Sigue las luces",
+      "text": "Primero, pulsa Guíame. Tu agente seguirá el camino de luces hasta los pulmones. También puedes moverte con las flechas o el joystick.",
+      "start": 7.472,
+      "speech": 7.68,
+      "duration": 8.88
+    },
+    {
+      "title": "Mantén pulsado Proteger",
+      "text": "Después, mantén pulsado Proteger. Lumi elegirá la defensa correcta y te ayudará a apuntar. Los anticuerpos actúan contra virus. Los antibióticos actúan contra bacterias.",
+      "start": 16.352,
+      "speech": 10.475,
+      "duration": 11.675
+    },
+    {
+      "title": "Aprende y gana tu insignia",
+      "text": "Cuando la zona esté limpia, responde una pregunta corta. Si te equivocas, puedes probar otra vez. ¡Así recuperas el sistema y ganas tu insignia!",
+      "start": 28.027,
+      "speech": 8.683,
+      "duration": 9.883
+    },
+    {
+      "title": "Cuatro misiones. Un gran equipo.",
+      "text": "Repite la aventura en el corazón, el cerebro y la fortaleza de las defensas. Recupera las cuatro zonas y protege el núcleo. ¡Lumi te acompañará paso a paso!",
+      "start": 37.909,
+      "speech": 9.493,
+      "duration": 10.693
+    }
+  ]
+}
