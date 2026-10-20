@@ -1,0 +1,82 @@
+[
+  {
+    "archivo": "assets/fichas/guerrero.png",
+    "pdf": "Guia de Personajes de Calabozos y Dragones.pdf",
+    "pdf_sha256": "e1b54bb0972dbf853e672c849fd2536ceceb8e285a14ebc0c08eeac368413c5c",
+    "xref": 22,
+    "smask_xref": 118,
+    "ancho": 443,
+    "alto": 354,
+    "alpha": true
+  },
+  {
+    "archivo": "assets/fichas/mago.png",
+    "pdf": "Guia de Personajes de Calabozos y Dragones.pdf",
+    "pdf_sha256": "e1b54bb0972dbf853e672c849fd2536ceceb8e285a14ebc0c08eeac368413c5c",
+    "xref": 23,
+    "smask_xref": 119,
+    "ancho": 371,
+    "alto": 371,
+    "alpha": true
+  },
+  {
+    "archivo": "assets/fichas/clerigo.png",
+    "pdf": "Guia de Personajes de Calabozos y Dragones.pdf",
+    "pdf_sha256": "e1b54bb0972dbf853e672c849fd2536ceceb8e285a14ebc0c08eeac368413c5c",
+    "xref": 24,
+    "smask_xref": 120,
+    "ancho": 407,
+    "alto": 406,
+    "alpha": true
+  },
+  {
+    "archivo": "assets/fichas/arquero.png",
+    "pdf": "Guia de Personajes de Calabozos y Dragones.pdf",
+    "pdf_sha256": "e1b54bb0972dbf853e672c849fd2536ceceb8e285a14ebc0c08eeac368413c5c",
+    "xref": 29,
+    "smask_xref": 130,
+    "ancho": 439,
+    "alto": 353,
+    "alpha": true
+  },
+  {
+    "archivo": "assets/fichas/ladron.png",
+    "pdf": "Guia de Personajes de Calabozos y Dragones.pdf",
+    "pdf_sha256": "e1b54bb0972dbf853e672c849fd2536ceceb8e285a14ebc0c08eeac368413c5c",
+    "xref": 30,
+    "smask_xref": 131,
+    "ancho": 470,
+    "alto": 353,
+    "alpha": true
+  },
+  {
+    "archivo": "assets/fichas/murcielago.png",
+    "pdf": "Guía de Sesión El Despertar del Código Ancestral .pdf",
+    "pdf_sha256": "eb83eb1a30b5c006d730849a46ecbd5d465308d77f7b72dc96ca1a5929575930",
+    "xref": 38,
+    "smask_xref": 335,
+    "ancho": 364,
+    "alto": 273,
+    "alpha": true
+  },
+  {
+    "archivo": "assets/fichas/guardian.png",
+    "pdf": "Guía de Sesión El Despertar del Código Ancestral .pdf",
+    "pdf_sha256": "eb83eb1a30b5c006d730849a46ecbd5d465308d77f7b72dc96ca1a5929575930",
+    "xref": 40,
+    "smask_xref": 336,
+    "ancho": 308,
+    "alto": 461,
+    "alpha": true
+  },
+  {
+    "archivo": "assets/fichas/cronomante.png",
+    "pdf": "Guía de Sesión El Despertar del Código Ancestral .pdf",
+    "pdf_sha256": "eb83eb1a30b5c006d730849a46ecbd5d465308d77f7b72dc96ca1a5929575930",
+    "xref": 46,
+    "smask_xref": 345,
+    "ancho": 308,
+    "alto": 461,
+    "alpha": true
+  }
+]

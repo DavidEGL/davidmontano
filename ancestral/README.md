@@ -37,8 +37,8 @@ Las fichas pueden moverse libremente pulsando sobre el tablero. El movimiento es
 - Tres mapas originales extraídos de `TABLERO 1.pdf`, `TABLEROS  2.pdf` y `TABLERO FINAL.pdf`.
 - Tres acertijos de progreso, tres enjambres de 10 PV, el Guardián de 30 PV y el Cronomante de 60 PV.
 - Banco de 15 filas × 6 dificultades (90 ejercicios) transcrito de la guía. Las fracciones extraídas por OCR se normalizaron; las soluciones se calcularon para la versión web. El profesor puede valorar respuestas equivalentes y razonamientos, ya que la corrección es manual.
-- Retratos vectoriales propios inspirados en los héroes robóticos de las referencias. **Sesión → Cargar hoja de fichas** permite incorporar la imagen original de 4 columnas × 2 filas (hasta 2 MB): clérigo, mago, ladrón, guerrero / murciélago, guardián, Cronomante, arquero. Se conserva en ese navegador; el recorte se realiza visualmente mediante CSS. Actualmente esta hoja personaliza los cinco héroes; los enemigos usan símbolos por defecto.
-- El PDF de cartas para imprimir no se pudo descargar porque excede el límite de transferencia de 32 MB. Las imágenes compartidas se usaron como referencia visual y de reglas, pero no están incluidas como archivos originales en el repositorio.
+- Ocho ilustraciones originales ya incluidas: Guerrero, Mago, Clérigo, Arquero, Ladrón, Murciélago-Fragmento, Guardián y Cronomante. Se extrajeron de los PDF de personajes y sesión, conservando sus máscaras de transparencia. Aparecen en la compañía, el detalle del héroe activo, las fichas del tablero y la lista de enemigos. No hay que cargar imágenes desde Sesión. `assets/fichas/origen.json` registra el documento, su SHA-256 y el objeto PDF de cada ilustración.
+- El PDF de cartas para imprimir no se pudo descargar porque excede el límite de transferencia de 32 MB. Las ilustraciones originales de las fichas se recuperaron de los otros PDF disponibles; el juego no depende del PDF de cartas.
 
 Decisiones donde el material no precisa un algoritmo: parcial ofensivo cuesta 1 PV y aplica mitad del daño o cura, redondeada hacia abajo (mínimo 1); utilidades requieren acierto completo. Parcial defensivo cuesta 1 PV, salvo al Guerrero. El crítico duplica daño y sanación. Los tres enjambres comparten un ataque por turno enemigo. Se juega con tres héroes distintos por ronda, o todos los disponibles si son menos. Aturdimiento impide actuar durante una ronda; Purificar puede eliminarlo. Romper barreras y liberar prisioneros no consumen acción de héroe. Un intento de prisión dispone de un minuto; puede repetirse. Huir con ventaja reinicia el encuentro sin recuperar PV. La cerradura facilitada del Ladrón añade una orientación técnica. La sanación puede reactivar a un héroe con 0 PV. El detalle de reglas está también en **Cómo jugar**.
 
@@ -65,3 +65,13 @@ Los navegadores cargan módulos ES; sirve la carpeta por HTTP, no abras `index.h
 - `tests/`: pruebas automatizadas.
 
 La aplicación no incorpora el paquete incompleto de Epic Boost que ya existía en el repositorio.
+
+## Descarga lista para abrir
+
+`npm run build:download` genera `descarga/JUGAR-CODIGO-ANCESTRAL.html` y su ZIP, con las 11 imágenes (3 mapas y 8 personajes) incorporadas. No necesita servidor ni archivos de imagen separados. El código normal y el descargable usan las mismas ilustraciones.
+
+## Música y efectos
+
+La banda sonora original se sintetiza con Web Audio: progresión en re menor, capas de cuerdas y metales, arpegios, bajo y percusión a 88 BPM. No descarga archivos ni necesita conexión. El audio empieza tras una interacción del usuario, según las reglas de reproducción de los navegadores. El botón **Sonido** permite encender/apagar música y efectos por separado, ajustar el volumen y silenciar todo. Las preferencias se guardan localmente y se conservan al recargar. Se pausa automáticamente al ocultar la pestaña. Efectos incluidos: dado, acierto, impacto, daño, sanación, enemigo, victoria y derrota.
+
+`npm run test:media` comprueba con Chromium que las ocho ilustraciones cargan sin intervención, se genera señal de audio para música y efectos, el silencio corta esa señal, las preferencias se restauran al recargar y la vista móvil no desborda. Requiere el mismo Playwright/Chromium opcional que la prueba de campaña.
