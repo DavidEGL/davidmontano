@@ -1,77 +1,68 @@
-# INMUNO · misiones guiadas en tercera persona · versión 3
+# INMUNO · Expedición interior · versión 4
 
-La aventura está organizada en cuatro misiones cortas y un núcleo final. **Guíame** sigue un camino de luces, activa la estación y acompaña al personaje con la cámara. **Mantén Proteger** apunta y elige la defensa adecuada. Cada zona termina con una pregunta recuperable y una insignia. Lumi ayuda con escudos y energía. Hay tres niveles para toda primaria.
+Videojuego individual en tercera persona dentro de tejidos del cuerpo humano. El jugador mueve y orienta al nanobot, escanea focos, elige una defensa, apunta y recupera tejido. No hay autopiloto, selección automática de herramienta o enemigo ni curación automática al esperar.
 
-Incluye un **tráiler de unos 49 segundos, narrado en español y con subtítulos**, que enseña esos mismos pasos con capturas de la partida. Se ofrece antes de empezar y puede repetirse desde Pausa → Cómo jugar. El personaje, los materiales, el terreno, la vegetación, el cielo y la iluminación se han revisado.
+![Captura real de Expedición interior](docs/expedicion-interior.png)
 
-![Primera misión guiada de INMUNO](docs/aventura-guiada.png)
+Cuatro misiones: alvéolos e intercambio gaseoso; bacterias y endotelio de un vaso sanguíneo; conexiones neuronales que se recuperan en orden; y esporas de hongos en un ganglio linfático. Cada región tiene tres focos. El mapa corporal abre la siguiente región al completar la anterior. Los tres niveles cubren 1.º–2.º, 3.º–4.º y 5.º–6.º de primaria con distinta resistencia, número de amenazas, pistas y tiempo de reacción.
 
-[Guía de la versión 3 y sus misiones](docs/MISIONES-GUIADAS.md). [Dirección visual](DESIGN.md).
+## Abrir
 
-## Abrir el juego y el tráiler
+Descarga `descarga/JUEGO-INMUNO.zip`, extrae todos los archivos y abre **JUGAR-INMUNO.html** con Chrome, Edge o Firefox. No necesita cuenta, instalación ni conexión. Requiere WebGL 2; la fluidez depende de la aceleración gráfica del dispositivo. También se puede alojar esta carpeta en un servidor estático. El ZIP de GitHub es una descarga, no una dirección de una web alojada ni multijugador.
 
-Descarga `descarga/JUEGO-INMUNO.zip` y **extrae todos sus archivos en una misma carpeta**. Abre **JUGAR-INMUNO.html** con Chrome, Edge o Firefox. Elige el nivel y pulsa Ver tráiler y jugar, o entra directamente al tutorial.
+## Controles
 
-El ZIP contiene el HTML autónomo de acción, el MP4 del tráiler y el modo de cartas anterior. No necesita instalación, cuentas ni conexión. El modo de acción requiere WebGL 2. El vídeo usa un archivo MP4 contiguo; conserva ese archivo junto al HTML. El progreso se guarda por región y se puede exportar/importar desde Pausa. El enlace de entrega es una descarga, no un sitio multijugador.
+| Acción | Orden |
+|---|---|
+| Moverse | WASD / flechas; Mayúsculas para avanzar más rápido |
+| Orientar cámara | Ratón derecho y arrastrar; Z / C con teclado |
+| Elegir herramienta | 1, 2, 3 o botones inferiores |
+| Actuar apuntando | Clic izquierdo / Espacio |
+| Escanear un foco cercano | E |
+| Recuperar tejido despejado | Mantener E cerca del foco |
+| Campo protector | Q; consume energía y tiene recarga |
+| Mapa / pausa | M / Esc |
 
-Los controles manuales son opcionales: flechas o WASD para mover y joystick en móvil. El botón Proteger también admite Espacio/Enter con el foco y la tecla P. No necesitas controlar cámara, cambiar herramienta, saltar ni construir para completar las misiones. Música y efectos se desactivan por separado.
+En móvil hay joystick, zona derecha para mirar y botones de acción y herramientas. El tutorial explica las tres fases; permite escuchar las instrucciones cuando el navegador dispone de voz. Música, efectos y volumen se controlan por separado. El progreso se guarda entre regiones y se puede exportar/importar desde Pausa. Cambiar de región avisa si se perderá avance de la misión actual.
 
-## Modo de cartas anterior
+## Qué cambió
 
-Se conserva en `cartas.html` durante desarrollo o en **MODO-CARTAS.html** dentro de la descarga. Sus reglas y controles son los siguientes:
+La isla exterior y sus órganos decorativos se sustituyen por cámaras interiores con tejido celular, capilares, membranas, células, eritrocitos en circulación y ramificaciones neuronales. Se añadió una textura de epitelio generada para este proyecto, materiales físicos, detalle de superficie, iluminación interior, niebla y cámara que evita atravesar estructuras. Las figuras son geometría original procedural, no modelos anatómicos escaneados. Es una representación didáctica a escala ampliada, no una reconstrucción médica fotorrealista ni un videojuego de presupuesto AAA.
 
-| Nivel | Grados | Aventura | Duelo |
-|---|---|---|---|
-| Exploradores | 1.º–2.º | 4 misiones; sistemas ya construidos; un nivel de infección; dos respuestas, pistas y vocabulario corto | 90 cartas: sistemas, virus, bacterias y cuatro defensas |
-| Defensores | 3.º–4.º | 9 misiones: construir, curar, vacunar y formar inmunidad | 108 cartas: sistemas, infecciones salvo mutación y todas las defensas |
-| Estrategas | 5.º–6.º | 9 misiones; preguntas sobre afinidad y evolución de infecciones | 128 cartas: añade mutación, seis tratamientos y dos eventos globales |
+La energía del instrumental se recarga; la integridad se recupera con recursos y objetivos. Un antibiótico no elimina virus. Fagocitosis tiene alcance corto y mayor coste. El nanobot, los proyectiles y los encuentros son metáforas de juego: las defensas reales son más complejas y los medicamentos solo se usan por indicación profesional. Se adaptó el contenido de la guía española; el juego original por turnos sigue en **MODO-CARTAS.html** / `cartas.html`, con sus reglas en [docs/REGLAS.md](docs/REGLAS.md).
 
-**Aventura:** elige carta → pulsa la isla en el mundo o el mapa → Usar aquí → responde al descubrimiento. Si quedan niveles, usa otra defensa. Los errores ofrecen pistas y permiten repetir. Cada misión da de una a tres estrellas. Al completar las cuatro islas, abre el portal central.
+## Desarrollo y pruebas
 
-**Duelo:** juega contra uno o varios bots, o entre 2 y 6 participantes en la misma pantalla. Cada persona tiene su cuerpo y mano. Elige un cuerpo a la derecha para verlo. Las cartas seleccionadas señalan destinos posibles; también puedes cambiar de una a tres cartas como tu acción del turno. Los tratamientos abren una lista de destinos válidos. Gana quien logre cuatro sistemas distintos estables, sin pandemia ni aislamiento. El cambio de participante oculta las manos hasta pulsar «Estoy listo». No incluye multijugador por Internet.
-
-Arrastra para girar la cámara, rueda para acercar. El mapa mueve al explorador a cada isla. Teclas 1/2/3 seleccionan carta; Enter la usa. Los botones del mapa, las cartas y las preguntas admiten teclado. El panel **Sonido** controla música, efectos y volumen por separado; la música comienza tras el primer gesto. **Escuchar** utiliza una voz española del navegador, cuando esté disponible. **Sesión** permite exportar/importar JSON, deshacer la última acción humana y cambiar de nivel. El progreso se guarda localmente; abrir una partida nueva pide confirmación.
-
-![Mundo 3D de INMUNO](docs/mundo-3d.png)
-
-## Desarrollo
-
-Node 24 y Python 3.12 en el entorno preparado. El juego compilado está incluido: para servirlo no necesitas descargar dependencias.
-
-```bash
-cd /workspace/davidmontano/inmuno
+```sh
 npm ci --cache /workspace/.npm-cache
 npm run build
 npm start
 ```
 
-El servidor usa el puerto 8090. Comprueba internamente `http://127.0.0.1:8090/`; no es un enlace público. Puede alojarse esta carpeta en cualquier servidor estático HTTPS. La publicación de un sitio web requiere configurar ese alojamiento; el ZIP publicado en GitHub es una descarga.
+Puerto local 8090. `http://127.0.0.1:8090` sirve para comprobar el entorno; no es un enlace público.
 
-```bash
+```sh
 npm test
-npm run build:download
 npm run test:browser
+npm run build:download
 npm run test:media
+npm run test:cards
 ```
 
-35 pruebas del motor verifican movimiento, salto, herramientas, daño, barreras, reintentos y tres partidas de acción completas; también incluyen 30 partidas completas de 2–6 bots, conservación exacta de las 128 cartas, reglas de defensas, tratamientos y eventos, y las tres aventuras. `npm run test:browser` recorre las cuatro misiones guiadas y el núcleo con los botones Guíame y Proteger, y comprueba preguntas, insignias, guardado y pantalla móvil. Las pruebas de rutas completan los tres niveles sin controlar cámara ni herramienta. `npm run trailer:check` valida la composición del vídeo con HyperFrames. `npm run test:cards` conserva las pruebas de las aventuras por cartas de 4/9/9 misiones. El Chromium del entorno bloquea `file://` por política; la prueba autónoma sirve el HTML exacto mediante una ruta sintética interceptada sin acceso real a red. Abrir el archivo desde el explorador de archivos requiere revisión en el navegador del usuario.
+Las pruebas de `anatomy.test.js` verifican ausencia de automatismos, movimiento, cobertura, selección manual, defensas incompatibles, alcance, coste de escudo, derrota, reparación interrumpida, orden neuronal, esporas, guardado y campañas completas en los tres niveles. Las pruebas de navegador recorren la interfaz y la campaña, comprueban teclado y móvil; utilizan un control de poses habilitado solo con `?qa=1` para evitar largos desplazamientos durante la prueba. No sustituye una sesión de evaluación con alumnado. El HTML autónomo exacto se comprueba en un origen sintético interceptado, bloqueando acceso real a red; el Chromium administrado bloquea navegación directa `file://`.
 
-El script de navegador usa Playwright y Chromium. Admite `PLAYWRIGHT_MODULE` y `CHROMIUM_PATH`; en este entorno reutiliza las herramientas preinstaladas. En otra máquina instala Playwright por separado y facilita esas rutas. No es necesario para jugar.
+## Código y procedencia
 
-## Estructura y decisiones
+- `anatomy-engine.js`: simulación y reglas separadas del renderizado.
+- `anatomy-world.js`: geometría, materiales, iluminación, cámara y representación.
+- `anatomy-app.js`: controles, objetivos, mapa, tutorial, sonido y progreso.
+- `cards-app.js`, `engine.js`, `world.js`: modo original por cartas.
+- `action-*.js`, `guidance.js`: implementación anterior conservada como referencia, sin cargar en el nuevo videojuego.
+- `audio.js`: música y efectos originales mediante Web Audio.
+- `trailer/`: explicación en vídeo con capturas reales y voz española.
+- [docs/skills](docs/skills/README.md): habilidades descargadas, revisiones, instrucciones y licencias de Frontend Design y Three.js Skills.
+- `assets/origen.json`: referencias de las 23 cartas y fichas extraídas de la guía aportada. Se conservan sus ilustraciones originales.
+- `assets/tissue/origen.json`: procedencia de la textura nueva.
+- `scripts/build_download.py`: integra el código, los 27 PNG y la textura JPEG en los HTML autónomos y genera el ZIP.
 
-- `data.js`: cartas originales, niveles, preguntas y hechos sobre el cuerpo.
-- `engine.js`: reglas deterministas, turnos, bot, validación y transacciones de estado.
-- `world.js`: geometría 3D, cámara, selección de órganos, microbios, avatar y animaciones.
-- `app.js`: selecciona acción o cartas; `cards-app.js` conserva la interfaz anterior.
-- `action-engine.js`, `action-world.js`, `action-app.js`: simulación, mundo y controles del videojuego.
-- `guidance.js`: rutas A*, seguimiento, apuntado, selección de herramienta y ayuda de energía.
-- `trailer/`: composición HyperFrames, narración, música original y capturas reales.
-- `media/TRAILER-INMUNO.mp4`: vídeo explicativo para reproducción dentro y fuera del juego.
-- `audio.js`: composición instrumental y efectos originales mediante Web Audio, sin archivos externos.
-- `assets/origen.json`: procedencia y referencias de las imágenes originales.
-- `scripts/build_download.py`: integra los 27 PNG y el motor completo en los dos HTML autónomos y un ZIP.
-
-Las tarjetas grandes de impresión superan el límite de transferencia de 32 MB. Las 23 ilustraciones de cartas y las fichas se extrajeron de la **GUÍA DE JUEGO INMUNO ESPAÑOL.pdf** aportada, que contiene ese mismo material. No se redibujaron las cartas. Los órganos, avatar y microbios del mundo son geometría 3D nueva. No se incluyen las ocho cartas en blanco ni la caja para imprimir.
-
-La adaptación parte de la guía española; las diferencias, erratas resueltas y decisiones digitales están detalladas en [docs/REGLAS.md](docs/REGLAS.md). Se conservó el juego anterior en `../ancestral`.
+La publicación anterior de Calabozos y Dragones se conserva en `../ancestral`.

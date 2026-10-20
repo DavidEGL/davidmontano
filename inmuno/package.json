@@ -1,6 +1,6 @@
 {
   "name": "inmuno-mundo-vivo",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,10 +8,10 @@
     "build": "node scripts/build.mjs",
     "build:download": "python scripts/build_download.py",
     "test": "node --test tests/*.test.js",
-    "test:browser": "node tests/guided-browser.cjs",
+    "test:browser": "node tests/anatomy-browser.cjs",
     "test:cards": "node tests/browser.cjs",
     "trailer:check": "cd trailer && HYPERFRAMES_BROWSER_PATH=/usr/bin/chromium HYPERFRAMES_FONT_CACHE_DIR=/workspace/.cache/hyperframes/fonts npm exec --yes --cache /workspace/.npm-cache --package hyperframes@0.8.181 -- hyperframes check",
-    "test:media": "node tests/media-browser.cjs"
+    "test:media": "node tests/interior-media.cjs"
   },
   "dependencies": {
     "three": "0.186.1"

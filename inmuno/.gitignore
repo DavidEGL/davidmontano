@@ -3,3 +3,4 @@ trailer/.hyperframes/
 trailer/renders/
 trailer/assets/raw/
 media/work-*/
+scripts/__pycache__/

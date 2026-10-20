@@ -1,40 +1,40 @@
 {
-  "duration": 48.603,
+  "duration": 46.277,
   "scenes": [
     {
-      "title": "Tu cuerpo te necesita",
-      "text": "¡Bienvenido a Inmuno! Eres un pequeño agente dentro del cuerpo. Tu misión es recuperar cuatro sistemas.",
+      "title": "La aventura está dentro de ti",
+      "text": "En Inmuno, la aventura está dentro de ti. Explora tejidos del cuerpo humano con tu nanobot. Tú decides cada acción.",
       "start": 0,
-      "speech": 6.272,
-      "duration": 7.472
+      "speech": 6.912,
+      "duration": 8.112
     },
     {
-      "title": "Sigue las luces",
-      "text": "Primero, pulsa Guíame. Tu agente seguirá el camino de luces hasta los pulmones. También puedes moverte con las flechas o el joystick.",
-      "start": 7.472,
-      "speech": 7.68,
-      "duration": 8.88
+      "title": "Explora y escanea",
+      "text": "Muévete con las flechas o con el joystick. Arrastra para mirar. Acércate a un foco y pulsa E para escanearlo.",
+      "start": 8.112,
+      "speech": 6.421,
+      "duration": 7.621
     },
     {
-      "title": "Mantén pulsado Proteger",
-      "text": "Después, mantén pulsado Proteger. Lumi elegirá la defensa correcta y te ayudará a apuntar. Los anticuerpos actúan contra virus. Los antibióticos actúan contra bacterias.",
-      "start": 16.352,
-      "speech": 10.475,
-      "duration": 11.675
+      "title": "Identifica y decide",
+      "text": "Identifica la amenaza y elige tu defensa. Anticuerpo contra virus. Antibiótico contra bacterias. Apunta con el círculo central y pulsa para actuar.",
+      "start": 15.733,
+      "speech": 9.387,
+      "duration": 10.587
     },
     {
-      "title": "Aprende y gana tu insignia",
-      "text": "Cuando la zona esté limpia, responde una pregunta corta. Si te equivocas, puedes probar otra vez. ¡Así recuperas el sistema y ganas tu insignia!",
-      "start": 28.027,
-      "speech": 8.683,
-      "duration": 9.883
+      "title": "Recupera el tejido",
+      "text": "Después de despejar el foco, vuelve al tejido y mantén E para recuperarlo. Usa el campo protector y recoge recursos si necesitas ayuda.",
+      "start": 26.32,
+      "speech": 8.512,
+      "duration": 9.712
     },
     {
-      "title": "Cuatro misiones. Un gran equipo.",
-      "text": "Repite la aventura en el corazón, el cerebro y la fortaleza de las defensas. Recupera las cuatro zonas y protege el núcleo. ¡Lumi te acompañará paso a paso!",
-      "start": 37.909,
-      "speech": 9.493,
-      "duration": 10.693
+      "title": "Una ruta por el cuerpo",
+      "text": "Completa tres focos en cada región. Viaja por los pulmones, la circulación, las neuronas y los ganglios. Abre el mapa para ver tu siguiente misión.",
+      "start": 36.032,
+      "speech": 9.045,
+      "duration": 10.245
     }
   ]
 }

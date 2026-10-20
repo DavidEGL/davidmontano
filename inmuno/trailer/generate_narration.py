@@ -15,11 +15,12 @@ print('Espeak config:',inspect.signature(EspeakConfig),flush=True)
 config=EspeakConfig(lib_path=espeakng_loader.get_library_path(),data_path=espeakng_loader.get_data_path())
 model=Kokoro(str(cache/'kokoro-v1.0.onnx'),str(cache/'voices-v1.0.bin'),espeak_config=config)
 segments=[
-('Tu cuerpo te necesita','¡Bienvenido a Inmuno! Eres un pequeño agente dentro del cuerpo. Tu misión es recuperar cuatro sistemas.'),
-('Sigue las luces','Primero, pulsa Guíame. Tu agente seguirá el camino de luces hasta los pulmones. También puedes moverte con las flechas o el joystick.'),
-('Mantén pulsado Proteger','Después, mantén pulsado Proteger. Lumi elegirá la defensa correcta y te ayudará a apuntar. Los anticuerpos actúan contra virus. Los antibióticos actúan contra bacterias.'),
-('Aprende y gana tu insignia','Cuando la zona esté limpia, responde una pregunta corta. Si te equivocas, puedes probar otra vez. ¡Así recuperas el sistema y ganas tu insignia!'),
-('Cuatro misiones. Un gran equipo.','Repite la aventura en el corazón, el cerebro y la fortaleza de las defensas. Recupera las cuatro zonas y protege el núcleo. ¡Lumi te acompañará paso a paso!')]
+('La aventura está dentro de ti','En Inmuno, la aventura está dentro de ti. Explora tejidos del cuerpo humano con tu nanobot. Tú decides cada acción.'),
+('Explora y escanea','Muévete con las flechas o con el joystick. Arrastra para mirar. Acércate a un foco y pulsa E para escanearlo.'),
+('Identifica y decide','Identifica la amenaza y elige tu defensa. Anticuerpo contra virus. Antibiótico contra bacterias. Apunta con el círculo central y pulsa para actuar.'),
+('Recupera el tejido','Después de despejar el foco, vuelve al tejido y mantén E para recuperarlo. Usa el campo protector y recoge recursos si necesitas ayuda.'),
+('Una ruta por el cuerpo','Completa tres focos en cada región. Viaja por los pulmones, la circulación, las neuronas y los ganglios. Abre el mapa para ver tu siguiente misión.')]
+
 timing=[];clock=0
 for i,(title,text) in enumerate(segments):
  audio,rate=model.create(text,voice='ef_dora',speed=.93,lang='es')

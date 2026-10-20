@@ -1,39 +1,22 @@
-# Tráiler explicativo de INMUNO
+# Explicación de Expedición interior
 
-Composición HyperFrames de 48,603 segundos, 1280×720 a 24 fps, con cinco escenas: misión, camino de luces, Proteger, pregunta e insignia. Usa capturas reales del videojuego, una grabación de la primera ruta, narración española de Kokoro (`ef_dora`), subtítulos cortos y música original generada por síntesis.
+Composición HyperFrames de 46,277 segundos, 1280×720 a 24 fps. Cinco escenas con capturas reales: interior del bronquiolo, escaneo, elección y apuntado, recuperación del tejido y mapa corporal. La voz española es Kokoro `ef_dora`; incluye subtítulos cortos y música instrumental original. Las imágenes del juego son capturas estáticas con una entrada animada, no una grabación continua de movimiento.
 
-## Fuentes y reproducción
+`DESIGN.md` define paleta, tipografía y movimiento. `index.html` registra un timeline GSAP pausado y determinista. `timing.json` contiene la duración medida de cada WAV; `assets/voz-*.wav` conserva la voz para no necesitar modelos al renderizar. DejaVu Sans se conserva en `assets/GuiaSans.ttf` con su licencia. GSAP incluye su licencia en el archivo local.
 
-- `DESIGN.md`: identidad visual.
-- `index.html`: composición y timeline GSAP pausado, determinista.
-- `assets/paso-*.png`: capturas reales.
-- `assets/partida.webm`: captura de la partida con Playwright y FFmpeg.
-- `capture.json`: posiciones de la grabación usadas en el montaje.
-- `timing.json`: tiempos reales medidos de la narración.
-- `assets/voz-*.wav`: narración española local, conservada para no necesitar un modelo al renderizar.
-- `assets/musica.wav`: música original, generada por `build_composition.py`.
-- `assets/GuiaSans.ttf`: DejaVu Sans; licencia en `assets/FONT-LICENSE.txt`.
-- `assets/gsap.min.js`: GSAP 3.14.2, con la licencia incorporada.
+Para regenerar las capturas con el juego servido en 8090:
 
-Después del render, `python scripts/finalize_trailer.py` normaliza la narración a un nivel de escucha claro en aula (−16 LUFS, pico −1,5 dBTP) conservando el vídeo sin recodificar.
-
-El MP4 de entrega está en `../media/TRAILER-INMUNO.mp4` y se incluye en el ZIP del juego. Conserva ese MP4 junto al HTML al extraer la descarga. El vídeo está narrado y subtitulado; no necesita una voz instalada en el navegador.
-
-## Validación y render
-
-Desde la raíz de INMUNO:
-
-```bash
-HYPERFRAMES_BROWSER_PATH=/usr/bin/chromium HYPERFRAMES_FONT_CACHE_DIR=/workspace/.cache/hyperframes/fonts npm exec --yes --cache /workspace/.npm-cache --package hyperframes@0.8.181 -- hyperframes check trailer
+```sh
+node scripts/capture-interior.cjs
+/workspace/.inmuno-media-venv/bin/python trailer/generate_narration.py
+/workspace/.inmuno-media-venv/bin/python trailer/build_composition.py
+npm run trailer:check
 HYPERFRAMES_BROWSER_PATH=/usr/bin/chromium HYPERFRAMES_FONT_CACHE_DIR=/workspace/.cache/hyperframes/fonts npm exec --yes --cache /workspace/.npm-cache --package hyperframes@0.8.181 -- hyperframes render trailer --output media/TRAILER-INMUNO.mp4 --fps 24 --quality high --workers 2
+python scripts/finalize_trailer.py
 ```
 
-`check` revisa lint, runtime, layout, movimiento y contraste. Las verificaciones se realizan sobre esta composición, no sobre la plantilla inicial. El entorno tiene el directorio personal de herramientas en solo lectura; se usan cachés bajo `/workspace`. Los avisos de historial/telemetría que no puede guardar el CLI no impiden validar ni renderizar.
+El capturador usa controles reales y un control de poses de prueba para encuadrar objetivos. No modifica las reglas de defensa ni simula una victoria inexistente. La generación de voz requiere los modelos oficiales de Kokoro en `/workspace/.cache/inmuno-tts`; esos modelos no se incluyen en Git. La voz se normaliza a −16 LUFS y pico −1,5 dBTP.
 
-La grabación WebM original tiene fotogramas clave espaciados; el render extrae fotogramas con FFmpeg para usar posiciones deterministas. La frecuencia de la captura depende de la GPU de software del entorno y no representa el rendimiento de un navegador con GPU física.
+El MP4 final está en `../media/TRAILER-INMUNO.mp4` y se incluye en la descarga. El botón «Ver cómo se juega» abre el vídeo con controles nativos y permite volver sin reproducirlo entero. También está en Pausa. Mantén el MP4 junto a JUGAR-INMUNO.html al extraer el ZIP. La reproducción no depende de voces del navegador.
 
-## Volver a generar las fuentes
-
-`../scripts/capture-trailer.cjs` recorre la primera misión de verdad. Requiere el juego servido en 8090 y Playwright con una herramienta FFmpeg disponible. En este entorno se reutiliza el FFmpeg del sistema mediante el caché de Playwright en `/workspace/.cache/ms-playwright`.
-
-`generate_narration.py` usa Python 3.12, `kokoro-onnx`, `soundfile` y `espeakng-loader`. Los modelos oficiales de Kokoro están en `/workspace/.cache/inmuno-tts`; no se incluyen en Git. Se usa el mismo motor local que HyperFrames TTS, con caché de modelos separado porque el CLI no permite escribir en el directorio personal de este entorno. `build_composition.py` usa el tiempo de cada WAV, escribe el HTML y crea el fondo musical. No se necesitan modelos ni Python para ver el MP4 ya generado.
+La grabación `assets/partida.webm` y `capture.json` pertenecen a la versión anterior; la composición actual no los utiliza.

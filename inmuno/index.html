@@ -2,104 +2,87 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#25333c" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Ccircle cx='15' cy='15' r='13' fill='%2392ded2'/%3E%3C/svg%3E"
     />
-    <meta name="theme-color" content="#122645" />
-    <title>INMUNO · Defensores del cuerpo</title>
+    <title>INMUNO · Expedición interior</title>
     <link rel="stylesheet" href="action.css" />
   </head>
   <body data-mode="action">
-    <div id="action-world"></div>
-    <div class="vignette"></div>
-    <header class="game-top">
-      <a href="#" id="brand" aria-label="Pausar INMUNO"
-        ><b>✚ INMUNO</b><span>DEFENSORES DEL CUERPO</span></a
-      >
-      <div class="compass">
-        <span>NO</span><span id="heading">N · 0°</span><span>NE</span>
-      </div>
-      <div class="top-actions">
-        <button id="sound-button" aria-label="Sonido">♫</button
-        ><button id="pause-button" aria-label="Pausa y opciones">Ⅱ</button
-        ><button id="fullscreen" aria-label="Pantalla completa">⛶</button>
-      </div>
+    <div id="anatomy-world"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <header class="game-header">
+      <a href="#" id="brand"><b>INMUNO</b><span>Expedición interior</span></a>
+      <nav>
+        <button id="map-button" aria-label="Mapa del cuerpo">
+          Mapa <kbd>M</kbd></button
+        ><button id="help-button" aria-label="Cómo jugar">?</button
+        ><button id="sound-button" aria-label="Música y efectos">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M4 8h3l4-4v12l-4-4H4Zm10-2q5 4 0 8" />
+          </svg></button
+        ><button id="pause-button" aria-label="Pausa">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M7 4v12M13 4v12" />
+          </svg></button
+        ><button id="fullscreen" aria-label="Pantalla completa">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M3 8V3h5m4 0h5v5m0 4v5h-5m-4 0H3v-5" />
+          </svg>
+        </button>
+      </nav>
     </header>
-    <section id="quest" class="quest"></section>
-    <aside class="radar-panel">
-      <div class="radar" id="radar"></div>
-      <div class="radar-caption">
-        <span id="location">ZONA CENTRAL</span><b id="restored-count">0 / 4</b>
-      </div>
+    <section class="mission-hud" aria-label="Misión actual">
+      <span id="place"></span>
+      <h1 id="mission-name"></h1>
+      <p id="objective"></p>
+      <ol id="objectives"></ol>
+    </section>
+    <aside class="local-map">
+      <svg id="radar" viewBox="0 0 120 120" aria-label="Mapa de la región"></svg
+      ><span id="progress"></span>
     </aside>
-    <div id="boss-bar" class="boss-bar" hidden></div>
-    <div id="reticle" class="reticle"><i></i><i></i><i></i><i></i></div>
-    <div id="waypoint" class="waypoint" hidden></div>
-    <div id="interaction" class="interaction" hidden>
-      <button id="interact-button"></button>
+    <div id="world-labels" aria-hidden="true"></div>
+    <div id="reticle" aria-hidden="true"><i></i></div>
+    <div id="notification" role="status"></div>
+    <div id="context" hidden>
+      <button id="interact-button"><kbd>E</kbd><span></span></button
+      ><progress id="repair-progress" max="1" value="0"></progress>
     </div>
-    <div
-      id="notification"
-      class="notification"
-      role="status"
-      aria-live="polite"
-    ></div>
-    <div class="game-bottom">
-      <div class="vitals">
-        <div class="player-tag">
-          <span class="avatar-icon">✚</span>
-          <div>
-            <b>AGENTE INMUNO</b><small id="level-tag">EXPLORADOR</small>
-          </div>
-        </div>
-        <div class="meter">
-          <span>✚</span>
-          <div><i id="health-fill"></i></div>
-          <b id="health-number">100</b>
-        </div>
-        <div class="shield-status" id="shield-status">Q · Escudo listo</div>
-      </div>
-      <div class="loadout" id="loadout"></div>
-      <div class="score-box">
-        <span>ENERGÍA RECUPERADA</span><b id="score">0</b
-        ><small id="kills">0 microbios neutralizados</small>
-      </div>
-    </div>
-    <div class="controls-hint" id="controls-hint">
-      WASD · Mover &nbsp; ESPACIO · Saltar &nbsp; MAYÚS · Correr &nbsp; CLIC ·
-      Lanzar &nbsp; Q · Escudo &nbsp; F · Construir &nbsp; E · Activar
-    </div>
-    <div class="simple-controls">
-      <div id="guide-caption">Lumi te acompaña.</div>
-      <button class="primary" id="guide-toggle">✦ Guíame</button
-      ><button class="primary" id="protect-button" hidden>
-        ◈ Mantén PROTEGER
+    <footer class="game-footer">
+      <section class="vitals">
+        <div><b>Agente N-01</b><small id="grade"></small></div>
+        <label
+          >Integridad <b id="health-number">100</b
+          ><span class="bar"><i id="health-fill"></i></span></label
+        ><label
+          >Energía <b id="energy-number">100</b
+          ><span class="bar energy"><i id="energy-fill"></i></span
+        ></label>
+      </section>
+      <section
+        id="equipment"
+        aria-label="Herramientas: elige una defensa"
+      ></section>
+      <button id="shield-button">
+        <kbd>Q</kbd><span>Campo protector</span
+        ><small id="shield-status">Listo</small>
       </button>
+    </footer>
+    <div id="control-hint">
+      WASD / flechas · Moverse &nbsp; Ratón derecho · Mirar &nbsp; Clic /
+      espacio · Actuar &nbsp; E · Escanear / recuperar
     </div>
     <div id="touch-controls">
-      <div class="joystick" id="joystick"><div id="stick"></div></div>
-      <div
-        class="touch-look"
-        id="touch-look"
-        aria-label="Arrastra para girar la cámara"
-      ></div>
-      <div class="touch-buttons">
-        <button id="touch-shield" aria-label="Escudo">◈</button
-        ><button id="touch-build" aria-label="Construir barrera">▥</button
-        ><button id="touch-jump" aria-label="Saltar">↟</button
-        ><button id="touch-fire" aria-label="Lanzar defensa">◎</button>
-      </div>
+      <div id="joystick" aria-label="Moverse"><i id="stick"></i></div>
+      <div id="touch-look" aria-label="Arrastrar para mirar"></div>
+      <button id="touch-fire">Actuar</button>
     </div>
-    <dialog id="action-dialog" aria-labelledby="dialog-title">
-      <div id="modal-content"></div>
-    </dialog>
-    <input
-      type="file"
-      id="action-import"
-      accept="application/json,.json"
-      hidden
-    />
+    <dialog id="anatomy-dialog"><div id="modal-content"></div></dialog>
+    <input id="progress-import" type="file" accept="application/json" hidden />
     <script src="build/game.js" defer></script>
   </body>
 </html>

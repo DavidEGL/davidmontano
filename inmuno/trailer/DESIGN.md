@@ -1,24 +1,19 @@
-# INMUNO · dirección visual de la versión guiada
+# Tráiler · Expedición interior
 
 ## Style Prompt
-Aventura 3D familiar de ciencia fantástica, con la claridad de control de un juego infantil y la referencia de tercera persona indicada por el usuario. Plástico suave, materiales perlados, vegetación orgánica, luz de amanecer, caminos luminosos y órganos reconocibles. Un agente astronauta de formas redondeadas acompaña misiones breves. El tráiler enseña acciones reales del juego; no promete gráficos ni funciones que no estén en la partida.
+Guía breve de la partida real dentro del cuerpo. Cinco capturas reales de la versión actual, voz española y subtítulos. El mundo anatómico ocupa el fondo y un rótulo explica una acción. No mostrar el antiguo piloto automático ni prometer modelos o funciones que no existen.
 
 ## Colors
-- #12394b: texto y paneles de contraste.
-- #37bfa7: defensas, exploración y vegetación.
-- #ffd166: objetivos y acción principal.
-- #a798ee: mundo respiratorio y microbios virales.
-- #fff7e9: luz, tarjetas y superficies del personaje.
+#172f3d panel de instrumentación; #eef5f1 texto principal; #92ded2 acción y títulos; #b6e9db etiquetas. El tejido visible procede de la partida.
 
 ## Typography
-Trebuchet MS para el juego y DejaVu Sans (GuiaSans.ttf) para los rótulos del tráiler, con peso 900 en títulos y 400 en instrucciones. Courier New se limita a números y teclas. Las instrucciones son cortas, de una acción; el tráiler usa títulos de 60 px o mayores y subtítulos de al menos 26 px a 1280×720.
+DejaVu Sans local GuiaSans.ttf: títulos 60 px y peso 900, cuerpo 25 px, subtítulos 26 px, etiquetas 18 px. No texto largo en mayúsculas.
 
 ## Motion
-Cámara suave de seguimiento automático. Entradas de texto con power3.out, sine.out y back.out suave. Transiciones de revelado circular y superposición de escena entre los cinco pasos del tráiler. Sin destellos rápidos ni sacudidas de cámara en el modo sencillo.
+Revelado circular suave entre escenas. Entradas distintas con power3.out, sine.out y back.out leve; no salidas antes de transición. Las imágenes tienen un acercamiento mínimo, no se presentan como secuencias de movimiento. Voz y duración de cada escena determinan el ritmo.
 
 ## What NOT to Do
-- No llenar la primera pantalla con teclas o sistemas de combate.
-- No terrenos lisos de un solo color ni modelos formados solo por cubos visibles.
-- No usar imágenes de promoción que aparenten ser capturas reales.
-- No instrucciones largas en mayúsculas ni texto pequeño sobre vegetación.
-- No exigir apuntar, cambiar herramienta o controlar la cámara para completar las misiones.
+- No imágenes conceptuales que aparenten ser la partida.
+- No instrucciones Guíame o Proteger automático.
+- No suprimir el escaneo, elección de defensa o recuperación manual.
+- No tapar toda la escena con texto ni bajar contraste por efectos.
