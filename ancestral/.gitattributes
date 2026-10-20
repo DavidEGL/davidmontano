@@ -1,0 +1,3 @@
+# GLSL template strings from the generated Three.js bundle preserve vendor indentation.
+build/game.js -whitespace
+descarga/JUGAR-CODIGO-ANCESTRAL.html -whitespace

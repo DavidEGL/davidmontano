@@ -1,6 +1,6 @@
 import {heroes,zones,bank,difficulty} from './data.js';
 export const VERSION=1;
-export function initialState(){return {version:VERSION,started:false,zone:0,phase:'intro',round:1,row:0,selected:0,target:0,ally:0,acted:[],shield:false,guard:null,barrier:false,enemyStun:false,half:false,hints:0,heroes:heroes.map((h,i)=>({hp:h.hp,team:`Equipo ${i+1}`,uses:{},advanced:false,stunned:false,prison:false,pos:[25+i*12,77+(i%2)*7]})),enemies:zones[0].enemies.map(([name,hp])=>({name,hp,max:hp})),log:[{text:'La compañía se reúne. Una aventura ancestral está a punto de comenzar.',kind:'story'}]};}
+export function initialState(){return {version:VERSION,treasures:[],started:false,zone:0,phase:'intro',round:1,row:0,selected:0,target:0,ally:0,acted:[],shield:false,guard:null,barrier:false,enemyStun:false,half:false,hints:0,heroes:heroes.map((h,i)=>({hp:h.hp,team:`Equipo ${i+1}`,uses:{},advanced:false,stunned:false,prison:false,pos:[25+i*12,77+(i%2)*7]})),enemies:zones[0].enemies.map(([name,hp])=>({name,hp,max:hp})),log:[{text:'La compañía se reúne. Una aventura ancestral está a punto de comenzar.',kind:'story'}]};}
 export function addLog(s,text,kind='event'){s.log.unshift({text,kind});s.log=s.log.slice(0,80);}
 export function alive(s){return s.heroes.map((h,i)=>h.hp>0&&!h.prison?i:-1).filter(i=>i>=0);}
 export function canAct(s,i){return s.started&&s.phase==='combat'&&s.heroes[i].hp>0&&!s.heroes[i].prison&&!s.heroes[i].stunned&&!s.acted.includes(i)&&s.acted.length<3;}
@@ -53,7 +53,7 @@ export function monsterEffect(s,ability,target,result){
 }
 export function validState(s){
  const integer=(n,max=1000000)=>Number.isInteger(n)&&n>=0&&n<=max;
- return !!(s&&s.version===VERSION&&integer(s.zone,2)&&typeof s.started==='boolean'&&['intro','riddle','combat','cleared','victory','defeat'].includes(s.phase)&&
+ return !!(s&&s.version===VERSION&&(s.treasures===undefined||(Array.isArray(s.treasures)&&s.treasures.length<=3&&new Set(s.treasures).size===s.treasures.length&&s.treasures.every(n=>integer(n,2))))&&integer(s.zone,2)&&typeof s.started==='boolean'&&['intro','riddle','combat','cleared','victory','defeat'].includes(s.phase)&&
   ['shield','barrier','enemyStun','half'].every(k=>typeof s[k]==='boolean')&&(s.guard===null||integer(s.guard,4))&&integer(s.hints)&&
   Array.isArray(s.heroes)&&s.heroes.length===5&&s.heroes.every((h,i)=>h&&typeof h.team==='string'&&h.team.length<=40&&Number.isFinite(h.hp)&&h.hp>=0&&h.hp<=heroes[i].hp&&
    h.uses&&typeof h.uses==='object'&&!Array.isArray(h.uses)&&Object.values(h.uses).every(v=>integer(v,100))&&['advanced','stunned','prison'].every(k=>typeof h[k]==='boolean')&&
