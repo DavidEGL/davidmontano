@@ -1,10 +1,98 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#eff5ee"><title>INMUNO · Un mundo dentro de ti</title><link rel="stylesheet" href="style.css"></head>
-<body>
-<header><a class="brand" href="#" aria-label="INMUNO, inicio"><span class="brand-icon">✚</span>inmuno<span class="brand-dot">.</span></a><div class="header-caption">UN MUNDO DENTRO DE TI</div><nav><button id="sound">♫ <span>Sonido</span></button><button id="help">? <span>Cómo jugar</span></button><button id="session">☰ <span>Sesión</span></button></nav></header>
-<main id="game"><div id="world"></div><div id="labels"></div><div class="world-caption"><span class="live-dot"></span>MICROMUNDO VIVO <small>Arrastra para girar · Rueda para acercar</small></div>
-<aside class="mission-panel" id="mission"></aside><aside class="map-panel"><div class="eyebrow">TU MAPA INTERACTIVO</div><div class="mini-map" id="map"></div><div class="view-controls"><button id="home-view" title="Vista de aventura">◈ Aventura</button><button id="top-view" title="Vista desde arriba">▦ Desde arriba</button></div></aside>
-<div id="players" class="players"></div><section class="hand-panel"><div class="hand-heading"><div><span class="eyebrow" id="hand-label">TU EQUIPO DE DEFENSA</span><h2 id="hand-title">Elige una carta. Cambia el mundo.</h2></div><div id="hand-actions"></div></div><div id="hand" class="hand"></div><div id="action-bar"></div></section>
-<div id="notice" class="notice" role="status" aria-live="polite"></div></main>
-<dialog id="dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog><input id="import-file" type="file" accept="application/json,.json" hidden>
-<script src="build/game.js" defer></script></body></html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta name="theme-color" content="#122645" />
+    <title>INMUNO · Defensores del cuerpo</title>
+    <link rel="stylesheet" href="action.css" />
+  </head>
+  <body data-mode="action">
+    <div id="action-world"></div>
+    <div class="vignette"></div>
+    <header class="game-top">
+      <a href="#" id="brand" aria-label="Pausar INMUNO"
+        ><b>✚ INMUNO</b><span>DEFENSORES DEL CUERPO</span></a
+      >
+      <div class="compass">
+        <span>NO</span><span id="heading">N · 0°</span><span>NE</span>
+      </div>
+      <div class="top-actions">
+        <button id="sound-button" aria-label="Sonido">♫</button
+        ><button id="pause-button" aria-label="Pausa y opciones">Ⅱ</button
+        ><button id="fullscreen" aria-label="Pantalla completa">⛶</button>
+      </div>
+    </header>
+    <section id="quest" class="quest"></section>
+    <aside class="radar-panel">
+      <div class="radar" id="radar"></div>
+      <div class="radar-caption">
+        <span id="location">ZONA CENTRAL</span><b id="restored-count">0 / 4</b>
+      </div>
+    </aside>
+    <div id="boss-bar" class="boss-bar" hidden></div>
+    <div id="reticle" class="reticle"><i></i><i></i><i></i><i></i></div>
+    <div id="waypoint" class="waypoint" hidden></div>
+    <div id="interaction" class="interaction" hidden>
+      <button id="interact-button"></button>
+    </div>
+    <div
+      id="notification"
+      class="notification"
+      role="status"
+      aria-live="polite"
+    ></div>
+    <div class="game-bottom">
+      <div class="vitals">
+        <div class="player-tag">
+          <span class="avatar-icon">✚</span>
+          <div>
+            <b>AGENTE INMUNO</b><small id="level-tag">EXPLORADOR</small>
+          </div>
+        </div>
+        <div class="meter">
+          <span>✚</span>
+          <div><i id="health-fill"></i></div>
+          <b id="health-number">100</b>
+        </div>
+        <div class="shield-status" id="shield-status">Q · Escudo listo</div>
+      </div>
+      <div class="loadout" id="loadout"></div>
+      <div class="score-box">
+        <span>ENERGÍA RECUPERADA</span><b id="score">0</b
+        ><small id="kills">0 microbios neutralizados</small>
+      </div>
+    </div>
+    <div class="controls-hint" id="controls-hint">
+      WASD · Mover &nbsp; ESPACIO · Saltar &nbsp; MAYÚS · Correr &nbsp; CLIC ·
+      Lanzar &nbsp; Q · Escudo &nbsp; F · Construir &nbsp; E · Activar
+    </div>
+    <div id="touch-controls">
+      <div class="joystick" id="joystick"><div id="stick"></div></div>
+      <div
+        class="touch-look"
+        id="touch-look"
+        aria-label="Arrastra para girar la cámara"
+      ></div>
+      <div class="touch-buttons">
+        <button id="touch-shield" aria-label="Escudo">◈</button
+        ><button id="touch-build" aria-label="Construir barrera">▥</button
+        ><button id="touch-jump" aria-label="Saltar">↟</button
+        ><button id="touch-fire" aria-label="Lanzar defensa">◎</button>
+      </div>
+    </div>
+    <dialog id="action-dialog" aria-labelledby="dialog-title">
+      <div id="modal-content"></div>
+    </dialog>
+    <input
+      type="file"
+      id="action-import"
+      accept="application/json,.json"
+      hidden
+    />
+    <script src="build/game.js" defer></script>
+  </body>
+</html>

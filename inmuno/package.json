@@ -1,1 +1,20 @@
-{"name":"inmuno-mundo-vivo","version":"1.0.0","private":true,"type":"module","scripts":{"start":"python -m http.server 8090 --bind 0.0.0.0","build":"node scripts/build.mjs","build:download":"python scripts/build_download.py","test":"node --test tests/*.test.js","test:browser":"node tests/browser.cjs"},"dependencies":{"three":"0.186.1"},"devDependencies":{"esbuild":"0.28.1"}}
+{
+  "name": "inmuno-mundo-vivo",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python -m http.server 8090 --bind 0.0.0.0",
+    "build": "node scripts/build.mjs",
+    "build:download": "python scripts/build_download.py",
+    "test": "node --test tests/*.test.js",
+    "test:browser": "node tests/action-browser.cjs",
+    "test:cards": "node tests/browser.cjs"
+  },
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.1"
+  }
+}

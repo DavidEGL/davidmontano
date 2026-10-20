@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#eff5ee"><title>INMUNO · Un mundo dentro de ti</title><link rel="stylesheet" href="style.css"></head>
+<body data-mode="cards">
+<header><a class="brand" href="#" aria-label="INMUNO, inicio"><span class="brand-icon">✚</span>inmuno<span class="brand-dot">.</span></a><div class="header-caption">UN MUNDO DENTRO DE TI</div><nav><button id="sound">♫ <span>Sonido</span></button><button id="help">? <span>Cómo jugar</span></button><button id="session">☰ <span>Sesión</span></button></nav></header>
+<main id="game"><div id="world"></div><div id="labels"></div><div class="world-caption"><span class="live-dot"></span>MICROMUNDO VIVO <small>Arrastra para girar · Rueda para acercar</small></div>
+<aside class="mission-panel" id="mission"></aside><aside class="map-panel"><div class="eyebrow">TU MAPA INTERACTIVO</div><div class="mini-map" id="map"></div><div class="view-controls"><button id="home-view" title="Vista de aventura">◈ Aventura</button><button id="top-view" title="Vista desde arriba">▦ Desde arriba</button></div></aside>
+<div id="players" class="players"></div><section class="hand-panel"><div class="hand-heading"><div><span class="eyebrow" id="hand-label">TU EQUIPO DE DEFENSA</span><h2 id="hand-title">Elige una carta. Cambia el mundo.</h2></div><div id="hand-actions"></div></div><div id="hand" class="hand"></div><div id="action-bar"></div></section>
+<div id="notice" class="notice" role="status" aria-live="polite"></div></main>
+<dialog id="dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog><input id="import-file" type="file" accept="application/json,.json" hidden>
+<script src="build/game.js" defer></script></body></html>

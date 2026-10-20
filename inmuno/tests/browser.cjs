@@ -7,7 +7,7 @@ const fs=require('node:fs');
  const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox','--enable-unsafe-swiftshader']});
  const errors=[];const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));
  const read=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('inmuno-state-v1')));
- await page.goto('http://127.0.0.1:8090');
+ await page.goto('http://127.0.0.1:8090/cartas.html');
  assert.equal(await page.locator('canvas').count(),1);
  for(const level of [1,2,3]){
   if(level!==1){await page.reload();await page.locator('#resume').waitFor();}
@@ -32,6 +32,6 @@ const fs=require('node:fs');
  await page.close();
  // This cloud browser blocks file:// by policy. Load the exact distributed HTML
  // at a synthetic origin with every real network request blocked.
- const offline=await browser.newPage({viewport:{width:1280,height:900}});offline.on('pageerror',e=>errors.push(e.message));const network=[];offline.on('request',r=>{if(/^https?:/.test(r.url()))network.push(r.url());});const html=fs.readFileSync('descarga/JUGAR-INMUNO.html','utf8');await offline.route('**/*',route=>route.request().url()==='https://inmuno.offline.test/'?route.fulfill({status:200,contentType:'text/html',body:html}):route.abort());await offline.goto('https://inmuno.offline.test/');await offline.locator('[data-level="1"]').click();await offline.locator('#start').click();assert.equal(await offline.locator('#hand .card').count(),3);assert.equal(await offline.locator('canvas').count(),1);assert.equal(await offline.locator('#hand img').evaluateAll(images=>images.every(i=>i.complete&&i.naturalWidth>0)),true);assert.deepEqual(network,['https://inmuno.offline.test/']);await offline.close();console.log('PASS HTML autónomo, cartas y mundo 3D con toda la red real bloqueada');
+ const offline=await browser.newPage({viewport:{width:1280,height:900}});offline.on('pageerror',e=>errors.push(e.message));const network=[];offline.on('request',r=>{if(/^https?:/.test(r.url()))network.push(r.url());});const html=fs.readFileSync('descarga/MODO-CARTAS.html','utf8');await offline.route('**/*',route=>route.request().url()==='https://inmuno.offline.test/'?route.fulfill({status:200,contentType:'text/html',body:html}):route.abort());await offline.goto('https://inmuno.offline.test/');await offline.locator('[data-level="1"]').click();await offline.locator('#start').click();assert.equal(await offline.locator('#hand .card').count(),3);assert.equal(await offline.locator('canvas').count(),1);assert.equal(await offline.locator('#hand img').evaluateAll(images=>images.every(i=>i.complete&&i.naturalWidth>0)),true);assert.deepEqual(network,['https://inmuno.offline.test/']);await offline.close();console.log('PASS HTML autónomo, cartas y mundo 3D con toda la red real bloqueada');
  assert.deepEqual(errors,[]);await browser.close();console.log('PASS sin errores JavaScript');
 })().catch(e=>{console.error(e);process.exit(1)});

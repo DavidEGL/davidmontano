@@ -1,12 +1,20 @@
-# INMUNO · Un mundo dentro de ti
+# INMUNO · Defensores del cuerpo · versión 2
 
-Adaptación web de INMUNO para toda primaria. Mundo 3D real con Three.js: cinco islas conectadas por vasos, órganos modelados, célula exploradora, microbios y barreras que cambian con las cartas. Incluye las 23 ilustraciones originales recuperadas de la guía española.
+El juego principal es ahora una aventura de acción en tercera persona: controlas un agente 3D, corres, saltas, apuntas, lanzas defensas, construyes barreras y esquivas microbios. Hay cuatro regiones, un mapa, oleadas y un enfrentamiento final. Incluye tres dificultades para toda primaria, música y efectos desactivables y las ilustraciones originales en el códex.
+
+![INMUNO: videojuego de acción en tercera persona](docs/accion-3d.png)
+
+**Controles:** WASD, Mayús para correr, Espacio para saltar, botón derecho + arrastrar para cámara, clic para lanzar, 1/2/3 para herramienta, Q para escudo, F para barrera, E para estación o portal. En móvil hay joystick y botones táctiles. [Guía del modo de acción](docs/ACCION.md).
 
 ## Jugar en tu navegador
 
-Descarga `descarga/JUEGO-INMUNO.zip`, extrae el contenido y abre **JUGAR-INMUNO.html** con Chrome, Edge o Firefox. El archivo contiene todo: escena, cartas, estilos, música y efectos. No requiere conexión ni instalar herramientas. Necesita WebGL 2 para mostrar el mundo; si no está disponible, puedes jugar con el mapa y las cartas.
+Descarga `descarga/JUEGO-INMUNO.zip`, extrae el contenido y abre **JUGAR-INMUNO.html** con Chrome, Edge o Firefox. Ese archivo abre directamente el videojuego de acción y contiene escena, interfaz, ilustraciones, música y efectos. El ZIP también incluye MODO-CARTAS.html para conservar el juego anterior. No requiere conexión ni instalar herramientas. El modo de acción necesita WebGL 2. Si no está disponible, abre MODO-CARTAS.html para jugar al modo anterior con su mapa alternativo.
 
 El enlace público de descarga se encuentra en el mensaje de entrega. En GitHub también puedes entrar al ZIP y pulsar **Download raw file**.
+
+## Modo de cartas anterior
+
+Se conserva en `cartas.html` durante desarrollo o en **MODO-CARTAS.html** dentro de la descarga. Sus reglas y controles son los siguientes:
 
 | Nivel | Grados | Aventura | Duelo |
 |---|---|---|---|
@@ -41,7 +49,7 @@ npm run build:download
 npm run test:browser
 ```
 
-19 pruebas del motor incluyen 30 partidas completas de 2–6 bots, conservación exacta de las 128 cartas, reglas de defensas, tratamientos y eventos, y las tres aventuras. Las pruebas de navegador completan las campañas de 4/9/9 misiones, verifican respuesta del bot, descarte, controles de sonido, adaptación móvil, ausencia de errores JavaScript y el HTML autónomo con toda la red real bloqueada. El Chromium del entorno bloquea `file://` por política; por eso la prueba autónoma sirve el HTML exacto mediante una ruta sintética interceptada sin acceso a red. El gesto de abrir el archivo desde el explorador de archivos requiere revisión en el navegador del usuario.
+30 pruebas del motor verifican movimiento, salto, herramientas, daño, barreras, reintentos y tres partidas de acción completas; también incluyen 30 partidas completas de 2–6 bots, conservación exacta de las 128 cartas, reglas de defensas, tratamientos y eventos, y las tres aventuras. `npm run test:browser` comprueba el nuevo modo de acción con controles reales: desplazamiento, primera oleada, salto, escudo, barrera, pregunta, guardado, sonido, joystick móvil y HTML sin red. `npm run test:cards` conserva las pruebas de las aventuras por cartas de 4/9/9 misiones. El Chromium del entorno bloquea `file://` por política; la prueba autónoma sirve el HTML exacto mediante una ruta sintética interceptada sin acceso real a red. Abrir el archivo desde el explorador de archivos requiere revisión en el navegador del usuario.
 
 El script de navegador usa Playwright y Chromium. Admite `PLAYWRIGHT_MODULE` y `CHROMIUM_PATH`; en este entorno reutiliza las herramientas preinstaladas. En otra máquina instala Playwright por separado y facilita esas rutas. No es necesario para jugar.
 
@@ -50,10 +58,11 @@ El script de navegador usa Playwright y Chromium. Admite `PLAYWRIGHT_MODULE` y `
 - `data.js`: cartas originales, niveles, preguntas y hechos sobre el cuerpo.
 - `engine.js`: reglas deterministas, turnos, bot, validación y transacciones de estado.
 - `world.js`: geometría 3D, cámara, selección de órganos, microbios, avatar y animaciones.
-- `app.js`: interfaz, preguntas, selección de destinos, privacidad local, audio y guardado.
+- `app.js`: selecciona acción o cartas; `cards-app.js` conserva la interfaz anterior.
+- `action-engine.js`, `action-world.js`, `action-app.js`: simulación, mundo y controles del nuevo videojuego.
 - `audio.js`: composición instrumental y efectos originales mediante Web Audio, sin archivos externos.
 - `assets/origen.json`: procedencia y referencias de las imágenes originales.
-- `scripts/build_download.py`: integra los 27 PNG y el motor completo en un único HTML y un ZIP.
+- `scripts/build_download.py`: integra los 27 PNG y el motor completo en los dos HTML autónomos y un ZIP.
 
 Las tarjetas grandes de impresión superan el límite de transferencia de 32 MB. Las 23 ilustraciones de cartas y las fichas se extrajeron de la **GUÍA DE JUEGO INMUNO ESPAÑOL.pdf** aportada, que contiene ese mismo material. No se redibujaron las cartas. Los órganos, avatar y microbios del mundo son geometría 3D nueva. No se incluyen las ocho cartas en blanco ni la caja para imprimir.
 

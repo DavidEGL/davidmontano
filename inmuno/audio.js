@@ -39,6 +39,8 @@ export function createAudio(){
  }
  function set(update){settings={...settings,...update};settings.volume=Math.max(0,Math.min(100,Number(settings.volume)||0));try{localStorage.setItem(key,JSON.stringify(settings));}catch{}busVolumes();if(!settings.music)stopMusic();else startMusic();}
  function play(kind){if(!ready||!settings.effects||ctx.state!=='running')return;const t=ctx.currentTime+.01;
+  if(kind==='shoot'){tone(78,t,.075,.08,'sine');tone(66,t+.015,.08,.04,'triangle');return;}
+  if(kind==='pop'){[76,83].forEach((n,i)=>tone(n,t+i*.04,.14,.1,'sine'));return;}
   if(kind==='roll'){for(let i=0;i<7;i++){tone(58+i%3*4,t+i*.045,.07,.12,'square');noise(t+i*.045,.025,.06);}return;}
   if(kind==='success'){[74,77,81].forEach((n,i)=>tone(n,t+i*.075,.35,.15));return;}
   if(kind==='hurt'){tone(42,t,.35,.25,'sawtooth');tone(35,t+.08,.4,.15,'sine');return;}
