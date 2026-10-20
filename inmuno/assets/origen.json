@@ -1,0 +1,160 @@
+{
+  "documento": "GUÍA DE JUEGO INMUNO ESPAÑOL.pdf",
+  "sha256": "1b9457579c5ccb8e7a00194876d9dd2a7a3d5c77f22a6c6c56cc62fbe86c066a",
+  "imagenes": [
+    {
+      "archivo": "assets/cartas/nervioso.png",
+      "objeto_pdf": 147,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/circulatorio.png",
+      "objeto_pdf": 146,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/adaptativo.png",
+      "objeto_pdf": 145,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/inmunologico.png",
+      "objeto_pdf": 144,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/respiratorio.png",
+      "objeto_pdf": 143,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/viral.png",
+      "objeto_pdf": 110,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/bacteriana.png",
+      "objeto_pdf": 112,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/fungica.png",
+      "objeto_pdf": 111,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/severa.png",
+      "objeto_pdf": 109,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/mutacion.png",
+      "objeto_pdf": 113,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/integral.png",
+      "objeto_pdf": 96,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/antibiotico.png",
+      "objeto_pdf": 95,
+      "ancho": 169,
+      "alto": 253
+    },
+    {
+      "archivo": "assets/cartas/anticuerpo.png",
+      "objeto_pdf": 94,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/vacuna.png",
+      "objeto_pdf": 93,
+      "ancho": 169,
+      "alto": 253
+    },
+    {
+      "archivo": "assets/cartas/respuesta.png",
+      "objeto_pdf": 92,
+      "ancho": 169,
+      "alto": 253
+    },
+    {
+      "archivo": "assets/cartas/interferencia.png",
+      "objeto_pdf": 84,
+      "ancho": 173,
+      "alto": 259
+    },
+    {
+      "archivo": "assets/cartas/reasignacion.png",
+      "objeto_pdf": 83,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/reinicio.png",
+      "objeto_pdf": 82,
+      "ancho": 173,
+      "alto": 259
+    },
+    {
+      "archivo": "assets/cartas/aislamiento.png",
+      "objeto_pdf": 78,
+      "ancho": 169,
+      "alto": 253
+    },
+    {
+      "archivo": "assets/cartas/sabotaje.png",
+      "objeto_pdf": 77,
+      "ancho": 169,
+      "alto": 253
+    },
+    {
+      "archivo": "assets/cartas/intervencion.png",
+      "objeto_pdf": 73,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/pandemia.png",
+      "objeto_pdf": 72,
+      "ancho": 171,
+      "alto": 257
+    },
+    {
+      "archivo": "assets/cartas/colapso.png",
+      "objeto_pdf": 71,
+      "ancho": 169,
+      "alto": 253
+    },
+    {
+      "archivo": "assets/fichas/memoria.png",
+      "objeto_pdf": 62
+    },
+    {
+      "archivo": "assets/fichas/nivel.png",
+      "objeto_pdf": 60
+    },
+    {
+      "archivo": "assets/fichas/inmunizacion.png",
+      "objeto_pdf": 54
+    },
+    {
+      "archivo": "assets/fichas/logo.png",
+      "objeto_pdf": 160
+    }
+  ]
+}
